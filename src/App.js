@@ -3,7 +3,8 @@ import Contact from "./pages/Contact";
 import Dronesim from "./pages/Dronesim";
 import Home from "./pages/Home";
 import Header from "./components/Header";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+// import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 
 function App() {
 
@@ -197,13 +198,13 @@ function App() {
   return (
     <div>
       <Header />
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/dronesim" element={<Dronesim />} />
           <Route path="/contact" element={<Contact />} />
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </div>
   );
 }
