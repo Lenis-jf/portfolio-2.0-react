@@ -1,8 +1,8 @@
 {
   "name": "portfolio-react",
+  "homepage": "",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://lenis-jf.github.io/portfolio-2.0-react/",
   "dependencies": {
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",

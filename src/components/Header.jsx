@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Header() {
     return(
@@ -8,18 +9,18 @@ function Header() {
                 <input type="checkbox"/>
                 </label>
                 <div className="menu-buttons-container">
-                <a href="/" className="menu-button brown-color light-theme">
+                <Link to="/" className="menu-button brown-color light-theme">
                     <span>Home</span>
-                </a>
-                <a href="#projects" className="menu-button brown-color light-theme">
+                </Link>
+                <a href="/" className="menu-button brown-color light-theme">
                     <span>Projects</span>
                 </a>
-                <a href="/contact" className="menu-button brown-color light-theme">
+                <Link to="/contact" className="menu-button brown-color light-theme">
                     <span>Contact</span>
-                </a>
-                <a href="/about" className="menu-button brown-color light-theme">
+                </Link>
+                <Link to="/about" className="menu-button brown-color light-theme">
                     <span>About</span>
-                </a>
+                </Link>
                 <label className="darkmode-button-container brown-color light-theme">
                     <input type="checkbox"/>
                 </label>

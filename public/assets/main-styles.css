@@ -325,30 +325,36 @@ a.button {
     user-select: none;
 }
 
-a.section-changer {
+div.section-changer {
    display: flex;
    flex-direction: column;
    text-align: center;
    align-items: center;
-   gap: 5px;
-   color: var(--foreground-brown-color);
+   gap: 15px;
+   color: var(--light-color);
    cursor: pointer;
+   margin-top: 50px;
+   -webkit-tap-highlight-color: transparent;
 }
 
-a.section-changer-dark {
+div.section-changer-dark {
     margin-top: 100px; 
     color: var(--foreground-brown-color);    
 }
 
-a.section-changer div{
+div.section-changer div{
     width: 31px;
     height: 17px;
     background-size: cover;
-    background-position: bottom;    
+    background-image: url("icons/keyboard-arrow-down-light-color.svg");
+    background-position: bottom;
 }
 
+div.section-changer.home div{
+    transform: rotate(180deg);
+}
 
-a.section-changer-dark div{
+div.section-changer-dark div{
     background-image: url("icons/keyboard-arrow-down-brown.svg");
 }
 
@@ -476,6 +482,7 @@ div.icon, a.icon {
     width: 32px;
     height: 32px;
     background-size: cover;
+    -webkit-tap-highlight-color: transparent;
 }
 
 div.js {
@@ -792,6 +799,8 @@ section.project-info div.video-bottom div.smallerControls {
     height: 16px;
     background-image: url("icons/play-icon.svg");
     background-size: cover;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
 }
 
 section.project-info div.video-bottom div.smallerControls.playing {

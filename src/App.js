@@ -4,21 +4,48 @@ import Contact from "./pages/Contact";
 import Dronesim from "./pages/Dronesim";
 import Home from "./pages/Home";
 import Header from "./components/Header";
-// import { HashRouter, Routes, Route } from "react-router-dom";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route, useLocation } from "react-router-dom";
+// import { BrowserRouter, Routes, Route, HashRouter } from "react-router-dom";
 
 function App() {
+
+  return (
+    <div>
+      <HashRouter>
+        <RouterComponent />
+      </HashRouter>
+    </div>
+  );
+}
+
+function RouterComponent() {
+
+  const location = useLocation(); 
 
   useEffect(() => {
     const sections = document.querySelectorAll('section.section');
     const logo = document.querySelector('.logo-container');
     const labelMenu = document.querySelector('label.menu');
     const menuButtonsContainer = document.querySelector('div.menu-buttons-container');
-    const imagesWrapper = document.querySelector('div.images-wrapper')
-    const dronesimImages = document.querySelectorAll('div.images-wrapper div.img');
-    const radioButtons = document.querySelectorAll('div.radio-button');
-    const arrows = document.querySelectorAll('div.arrow');
     const cards = document.querySelectorAll('.project-card');
+    const sectionChangers = document.querySelectorAll('div.section-changer');
+
+    function goToSection(event) {
+      const targetClasses = ["projects", "abilities", "home", "last-part"];
+      const target = event.target.closest('.section-changer');
+
+      console.log("Section to go: ", target)
+      
+      var matchedClass = null;
+
+      if(target)
+         matchedClass = targetClasses.find(targetClass => target.classList.contains(targetClass));
+
+      if(matchedClass)
+        document.getElementById(matchedClass).scrollIntoView();
+    }
+
+    sectionChangers.forEach(sectionChanger => {sectionChanger.addEventListener('click', goToSection);});
 
     console.log("Secciones totales detectadas:", sections);
 
@@ -95,110 +122,31 @@ function App() {
       });
     });
 
-    var currentVisibleImageId = null;
-
-    const sliderObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          currentVisibleImageId = entry.target.id;
-          console.log("Imagen visible:", currentVisibleImageId);
-
-          radioButtons.forEach(radioButton => {
-            radioButton.classList.toggle('active', radioButton.id.includes(currentVisibleImageId));
-          });
-
-          arrows.forEach(arrow => {
-            if (currentVisibleImageId === "first-img" && arrow.classList.contains("left-arrow")) {
-              arrow.classList.add("unenabled");
-            } else if
-              (currentVisibleImageId === "last-img" && arrow.classList.contains("right-arrow")) {
-              arrow.classList.add("unenabled");
-            } else {
-              arrow.classList.remove("unenabled");
-            }
-          });
-        }
-      });
-    }, { threshold: 0.8 });
-
-    dronesimImages.forEach(image => {
-      sliderObserver.observe(image);
-    });
-
-    function handleRBClick(event) {
-      event.stopPropagation();
-      const radioButton = event.target;
-
-      if (radioButton) {
-        const currentImgId = radioButton.getAttribute('id');
-        const targetImg = document.getElementById(currentImgId);
-
-        if (targetImg && imagesWrapper) {
-          imagesWrapper.scrollTo({
-            left: targetImg.offsetLeft,
-            behavior: 'smooth'
-          });
-        }
-      }
-    }
-
-    radioButtons.forEach(radioButton => { radioButton.addEventListener('click', handleRBClick) });
-
-    function handleArrowClick(event) {
-      event.stopPropagation();
-      const arrow = event.target;
-
-      const currentImg = document.getElementById(currentVisibleImageId);
-      console.log("currentImg: ", currentImg);
-
-      if (arrow) {
-        if (arrow.classList.contains('left-arrow') && currentVisibleImageId != "first-img") {
-          let previousImg = currentImg.previousElementSibling;
-          console.log("nextSibling: ", previousImg);
-
-          if (previousImg)
-            imagesWrapper.scrollTo({
-              left: previousImg.offsetLeft,
-              behavior: "smooth"
-            })
-        } else if
-          (arrow.classList.contains("right-arrow") && currentVisibleImageId != "last-img") {
-          let nextImg = currentImg.nextElementSibling;
-          console.log("nextSibling: ", nextImg);
-
-          if (nextImg)
-            imagesWrapper.scrollTo({
-              left: nextImg.offsetLeft,
-              behavior: "smooth"
-            })
-        }
-      }
-    }
-
-    arrows.forEach(arrow => { arrow.addEventListener('click', handleArrowClick) });
-
     return () => {
       sectionObserver.disconnect();
-      sliderObserver.disconnect();
       if (cards)
         cards.forEach(card => {
           card.removeEventListener('click', handleCardClick);
         });
-      if (radioButtons)
-        radioButtons.forEach(radioButton => {
-          radioButton.removeEventListener('click', handleRBClick)
+      if(sectionChangers) {
+        sectionChangers.forEach(sectionChanger => {
+          sectionChanger.removeEventListener('click', goToSection);
         });
-      if (arrows)
-        arrows.forEach(arrow => {
-          arrow.removeEventListener('click', handleArrowClick);
-        });
+      }
     }
 
-  }, []);
+  }, [location]);
 
   return (
-    <div>
-      <BrowserRouter>
+    <>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/dronesim" element={<Dronesim />} />
+      </Routes>
+      {/* <BrowserRouter>
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -206,9 +154,10 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/dronesim" element={<Dronesim />} />
         </Routes>
-      </BrowserRouter>
-    </div>
+      </BrowserRouter> */}
+    </>
   );
+  
 }
 
 export default App;

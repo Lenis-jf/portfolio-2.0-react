@@ -2,83 +2,183 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 function Dronesim() {
-    const [videoCurrentTime, updateVideoCurrentTime] = useState(0);
-    const [videoDuration, updateVideoDuration] = useState(0);
-  
-    function formatTime(time) {
-      const minutes = Math.floor(time / 60);
-      const seconds = Math.floor(time % 60);
-      return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+  const [videoCurrentTime, updateVideoCurrentTime] = useState(0);
+  const [videoDuration, updateVideoDuration] = useState(0);
+
+  function formatTime(time) {
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+  }
+
+  useEffect(() => {
+    const video = document.querySelector('video');
+
+    if (video) {
+      video.addEventListener("timeupdate", updateTime);
     }
 
-    useEffect(() => {
-      const video = document.querySelector('video');
+    function updateTime() {
+      updateVideoCurrentTime(video.currentTime);
+      updateVideoDuration(video.duration);
 
-          if(video) {
-            video.addEventListener("timeupdate", updateTime);
-          }
-      
-          function updateTime() {
-            updateVideoCurrentTime(video.currentTime);
-            updateVideoDuration(video.duration);
-      
-            const durationCounter = document.querySelector('div.video-bottom div.time');
-            if (durationCounter) {
-              durationCounter.textContent = `${formatTime(videoCurrentTime)}/${formatTime(videoDuration)}`;
-            };
-          }
+      const durationCounter = document.querySelector('div.video-bottom div.time');
+      if (durationCounter) {
+        durationCounter.textContent = `${formatTime(videoCurrentTime)}/${formatTime(videoDuration)}`;
+      };
+    }
 
-          return () => {
-            if(video) {
-              video.removeEventListener('timeupdate', updateTime);
+    return () => {
+      if (video) {
+        video.removeEventListener('timeupdate', updateTime);
+      }
+    }
+  }, [videoCurrentTime, videoDuration]);
+
+  const progressBarWidth = videoDuration ? (videoCurrentTime / videoDuration) * 100 : 0;
+
+  useEffect(() => {
+    const imagesWrapper = document.querySelector('div.images-wrapper')
+    const dronesimImages = document.querySelectorAll('div.images-wrapper div.img');
+    const radioButtons = document.querySelectorAll('div.radio-button');
+    const arrows = document.querySelectorAll('div.arrow');
+    const videoPlayControl = document.querySelector('div.video-container div.controls');
+    const videoPlayControlSmall = document.querySelector('div.smallerControls');
+    const video = document.querySelector('video');
+
+    if (video) {
+      videoPlayControl.addEventListener('click', playManager);
+      videoPlayControlSmall.addEventListener("click", playManager);
+      video.addEventListener("click", showControls);
+    }
+
+    function showControls() {
+      videoPlayControl.classList.add('show');
+
+      setTimeout(() => { videoPlayControl.classList.remove('show') }, 1000);
+    }
+
+    function playManager() {
+      if (video.paused) {
+        videoPlayControl.classList.toggle('paused');
+        videoPlayControl.classList.toggle('playing');
+        videoPlayControlSmall.classList.toggle('playing');
+        videoPlayControlSmall.classList.toggle('paused');
+        video.play();
+      } else if (videoPlayControl.classList.contains('playing')) {
+        video.pause();
+        videoPlayControl.classList.toggle('playing');
+        videoPlayControl.classList.toggle('paused');
+        videoPlayControlSmall.classList.toggle('playing');
+        videoPlayControlSmall.classList.toggle('paused');
+      }
+    }
+
+    var currentVisibleImageId = null;
+
+    const sliderObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          currentVisibleImageId = entry.target.id;
+          console.log("Imagen visible:", currentVisibleImageId);
+
+          radioButtons.forEach(radioButton => {
+            radioButton.classList.toggle('active', radioButton.id.includes(currentVisibleImageId));
+          });
+
+          arrows.forEach(arrow => {
+            if (currentVisibleImageId === "first-img" && arrow.classList.contains("left-arrow")) {
+              arrow.classList.add("unenabled");
+            } else if
+              (currentVisibleImageId === "last-img" && arrow.classList.contains("right-arrow")) {
+              arrow.classList.add("unenabled");
+            } else {
+              arrow.classList.remove("unenabled");
             }
-          }
-    }, [videoCurrentTime, videoDuration]);
+          });
+        }
+      });
+    }, { threshold: 0.2 });
 
-    const progressBarWidth = videoDuration ? (videoCurrentTime/videoDuration) * 100 : 0;
+    dronesimImages.forEach(image => {
+      sliderObserver.observe(image);
+    });
 
-    useEffect(() => {
-      const videoPlayControl = document.querySelector('div.video-container div.controls'); 
-      const videoPlayControlSmall = document.querySelector('div.smallerControls');
-      const video = document.querySelector('video');
-      
-      if(video) {
-        videoPlayControl.addEventListener('click', playManager);
-        videoPlayControlSmall.addEventListener("click", playManager);
-        video.addEventListener("click", showControls);
-      }
-      
-      function showControls() {
-        videoPlayControl.classList.add('show');
-  
-        setTimeout(() => {videoPlayControl.classList.remove('show')}, 1000);
-      }
+    function handleRBClick(event) {
+      event.stopPropagation();
+      const radioButton = event.target;
 
-      function playManager() {
-        if(video.paused) {
-          videoPlayControl.classList.toggle('paused');
-          videoPlayControl.classList.toggle('playing');
-          videoPlayControlSmall.classList.toggle('playing');
-          videoPlayControlSmall.classList.toggle('paused');
-          video.play();
-        } else if(videoPlayControl.classList.contains('playing')){
-          video.pause();
-          videoPlayControl.classList.toggle('playing');
-          videoPlayControl.classList.toggle('paused');
-          videoPlayControlSmall.classList.toggle('playing');
-          videoPlayControlSmall.classList.toggle('paused');
+      console.log("radioButton clicked: ", radioButton);
+
+      if (radioButton) {
+        const currentImgIdRB = radioButton.getAttribute('id');
+        const targetImg = document.getElementById(currentImgIdRB);
+
+        if (targetImg && imagesWrapper) {
+          imagesWrapper.scrollTo({
+            left: targetImg.offsetLeft,
+            behavior: 'smooth'
+          });
         }
       }
+    }
 
-      return () => {
-        if(video)
-          video.removeEventListener('click', showControls);
-        if(videoPlayControl)
-          videoPlayControl.removeEventListener('click', playManager)
-        if(videoPlayControlSmall)
-          videoPlayControlSmall.removeEventListener('click', playManager);
+    radioButtons.forEach(radioButton => { radioButton.addEventListener('click', handleRBClick) });
+
+    function handleArrowClick(event) {
+      event.stopPropagation();
+      const arrow = event.target;
+
+      console.log("Arrow clicked: ", arrow);
+
+      const currentImgA = document.getElementById(currentVisibleImageId);
+      console.log("currentImg: ", currentImgA);
+
+      if (arrow && imagesWrapper) {
+        if (arrow.classList.contains('left-arrow') && currentVisibleImageId != "first-img") {
+          let previousImg = currentImgA.previousElementSibling;
+          console.log("previousSibling: ", previousImg);
+
+          if (previousImg)
+            imagesWrapper.scrollTo({
+              left: previousImg.offsetLeft,
+              behavior: "smooth"
+            })
+        } else if
+          (arrow.classList.contains("right-arrow") && currentVisibleImageId != "last-img") {
+          let nextImg = currentImgA.nextElementSibling;
+          console.log("nextSibling: ", nextImg);
+
+          if (nextImg)
+            imagesWrapper.scrollTo({
+              left: nextImg.offsetLeft,
+              behavior: "smooth"
+            })
+        }
       }
-    });
+    }
+
+    arrows.forEach(arrow => { arrow.addEventListener('click', handleArrowClick) });
+
+    return () => {
+      sliderObserver.disconnect();
+
+      if (video)
+        video.removeEventListener('click', showControls);
+      if (videoPlayControl)
+        videoPlayControl.removeEventListener('click', playManager)
+      if (videoPlayControlSmall)
+        videoPlayControlSmall.removeEventListener('click', playManager);
+      if (radioButtons)
+        radioButtons.forEach(radioButton => {
+          radioButton.removeEventListener('click', handleRBClick)
+        });
+      if (arrows)
+        arrows.forEach(arrow => {
+          arrow.removeEventListener('click', handleArrowClick);
+        });
+    }
+  }, []);
 
   return (
     <div>
@@ -106,14 +206,14 @@ function Dronesim() {
           <video src="assets/videos/dronesim.mp4"></video>
         </div>
         <div className="video-bottom">
-            <div className="smallerControls paused"></div>
-            <div className="video-duration-bar">
-              <div className="video-progress-bar" style={{width: `${progressBarWidth}%`}}></div>
-            </div>
-            <div className="time">
-              {formatTime(videoCurrentTime)}/{formatTime(videoDuration)}
-            </div>
+          <div className="smallerControls paused"></div>
+          <div className="video-duration-bar">
+            <div className="video-progress-bar" style={{ width: `${progressBarWidth}%` }}></div>
           </div>
+          <div className="time">
+            {formatTime(videoCurrentTime)}/{formatTime(videoDuration)}
+          </div>
+        </div>
         <p>Besides the API connection gets refreshed either automatically every 5 minutes or the user refreshes it through a refresh button. In order to establish the connection successfully, the user must be connected to the university's WiFi   </p>
         <span className="copy-right">©juanfelenis 2025</span>
       </section>
