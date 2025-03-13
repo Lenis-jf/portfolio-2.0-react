@@ -4,8 +4,8 @@ import Contact from "./pages/Contact";
 import Dronesim from "./pages/Dronesim";
 import Home from "./pages/Home";
 import Header from "./components/Header";
-// import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { HashRouter, Routes, Route } from "react-router-dom";
+// import { HashRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
 
@@ -110,8 +110,8 @@ function App() {
           arrows.forEach(arrow => {
             if (currentVisibleImageId === "first-img" && arrow.classList.contains("left-arrow")) {
               arrow.classList.add("unenabled");
-            } else if 
-            (currentVisibleImageId === "last-img" && arrow.classList.contains("right-arrow")) {
+            } else if
+              (currentVisibleImageId === "last-img" && arrow.classList.contains("right-arrow")) {
               arrow.classList.add("unenabled");
             } else {
               arrow.classList.remove("unenabled");
@@ -151,22 +151,22 @@ function App() {
       const currentImg = document.getElementById(currentVisibleImageId);
       console.log("currentImg: ", currentImg);
 
-      if(arrow) {
-        if(arrow.classList.contains('left-arrow') && currentVisibleImageId != "first-img") {
+      if (arrow) {
+        if (arrow.classList.contains('left-arrow') && currentVisibleImageId != "first-img") {
           let previousImg = currentImg.previousElementSibling;
           console.log("nextSibling: ", previousImg);
 
-          if(previousImg)
+          if (previousImg)
             imagesWrapper.scrollTo({
               left: previousImg.offsetLeft,
               behavior: "smooth"
             })
         } else if
-        (arrow.classList.contains("right-arrow") && currentVisibleImageId != "last-img") {
+          (arrow.classList.contains("right-arrow") && currentVisibleImageId != "last-img") {
           let nextImg = currentImg.nextElementSibling;
           console.log("nextSibling: ", nextImg);
 
-          if(nextImg)
+          if (nextImg)
             imagesWrapper.scrollTo({
               left: nextImg.offsetLeft,
               behavior: "smooth"
@@ -175,20 +175,20 @@ function App() {
       }
     }
 
-    arrows.forEach(arrow => {arrow.addEventListener('click', handleArrowClick)});
+    arrows.forEach(arrow => { arrow.addEventListener('click', handleArrowClick) });
 
     return () => {
       sectionObserver.disconnect();
       sliderObserver.disconnect();
-      if(cards)
+      if (cards)
         cards.forEach(card => {
           card.removeEventListener('click', handleCardClick);
         });
-      if(radioButtons)
+      if (radioButtons)
         radioButtons.forEach(radioButton => {
           radioButton.removeEventListener('click', handleRBClick)
         });
-      if(arrows)
+      if (arrows)
         arrows.forEach(arrow => {
           arrow.removeEventListener('click', handleArrowClick);
         });
@@ -198,15 +198,15 @@ function App() {
 
   return (
     <div>
-      <Header />
-      <HashRouter>
+      <BrowserRouter>
+        <Header />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/about" element={<About />} />
           <Route path="/dronesim" element={<Dronesim />} />
         </Routes>
-      </HashRouter>
+      </BrowserRouter>
     </div>
   );
 }
