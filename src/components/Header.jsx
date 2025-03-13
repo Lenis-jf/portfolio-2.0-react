@@ -1,6 +1,18 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Header() {
+    // Función para manejar clics en secciones internas
+    const handleSectionClick = (hash, e) => {
+    e.preventDefault();
+    const section = document.getElementById(hash);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    // Actualiza la URL sin recargar
+      window.history.replaceState(null, "", `/#${hash}`);
+    }
+  };
+
     return(
         <div>
             <header>
@@ -8,18 +20,20 @@ function Header() {
                 <input type="checkbox"/>
                 </label>
                 <div className="menu-buttons-container">
-                <a href="/" className="menu-button brown-color light-theme">
+                <Link to="/" className="menu-button brown-color light-theme">
                     <span>Home</span>
-                </a>
-                <a href="#projects" className="menu-button brown-color light-theme">
+                </Link>
+                <a href="#projects" 
+                onClick={(e) => handleSectionClick("projects", e)}
+                className="menu-button brown-color light-theme">
                     <span>Projects</span>
                 </a>
-                <a href="/Contact" className="menu-button brown-color light-theme">
+                <Link to="/Contact" className="menu-button brown-color light-theme">
                     <span>Contact</span>
-                </a>
-                <a href="/About" className="menu-button brown-color light-theme">
+                </Link>
+                <Link to="/About" className="menu-button brown-color light-theme">
                     <span>About</span>
-                </a>
+                </Link>
                 <label className="darkmode-button-container brown-color light-theme">
                     <input type="checkbox"/>
                 </label>

@@ -1,6 +1,18 @@
 import react from "react";
 
 function Home() {
+
+  // Función para manejar clics en secciones internas
+  const handleSectionClick = (hash, e) => {
+    e.preventDefault();
+    const section = document.getElementById(hash);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    // Actualiza la URL sin recargar
+      window.history.replaceState(null, "", `/#${hash}`);
+    }
+  };
+
   return (
     <div className="main-container">
       <section id="home" className="section light-section">
@@ -11,7 +23,9 @@ function Home() {
           <a href="/Contact" className="button">Find Me</a>
           <a href="#" className="button">Know Me</a>
         </div>
-        <a href="#projects" className="section-changer section-changer-dark">
+        <a href="#projects"
+        onClick={(e) => handleSectionClick("projects", e)}
+        className="section-changer section-changer-dark">
           <span>See more</span>
           <div></div>
         </a>
@@ -79,7 +93,9 @@ function Home() {
             <a href="#" className="button card-button">See more about it</a>
           </div>
         </div>
-        <a href="#abilities" className="section-changer section-changer-light">
+        <a href="#abilities"
+        onClick={(e) => handleSectionClick("abilities", e)}
+        className="section-changer section-changer-light">
           <span>Not finished yet :)</span>
           <div></div>
         </a>
@@ -105,7 +121,9 @@ function Home() {
         </div>
         <h5>Strengths:</h5>
         <p>The programming languages i have worked most with are Java, JavaScript and C++. In addition to the programming languages i mentioned before, i have also worked with MIPS (assembler) and HSQLDB</p>
-        <a href="#last-part" className="section-changer section-changer-dark">
+        <a href="#last-part"
+        onClick={(e) => handleSectionClick("last-part", e)}
+        className="section-changer section-changer-dark">
           <span>Do not forget it!</span>
           <div></div>
         </a>
@@ -116,7 +134,9 @@ function Home() {
         <p>I am Juan Fernando and im here to bring your ideas to reality</p>
         <div className="buttons-container light-color"></div>
         <a href="/Contact" className="button">Find Me</a> 
-        <a href="#home" className="section-changer section-changer-light">
+        <a href="#home"
+        onClick={(e) => handleSectionClick("home", e)}
+        className="section-changer section-changer-light">
           <div></div>
           <span>Go back to start</span>
         </a>
