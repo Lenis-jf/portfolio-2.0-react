@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Dronesim from "./pages/Dronesim";
 import Home from "./pages/Home";
