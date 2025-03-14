@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 function Header() {
     return(
         <div>
-            <header>
+            <header className="light-section">
                 <label className="menu brown-color light-theme">
                 <input type="checkbox"/>
                 </label>

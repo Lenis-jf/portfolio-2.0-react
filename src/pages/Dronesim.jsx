@@ -4,6 +4,11 @@ import CustomVideoPlayer from "../components/CustomVideoPlayer";
 function Dronesim() {
 
   useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "instant"
+    });
+
     const imagesWrapper = document.querySelector('div.images-wrapper')
     const dronesimImages = document.querySelectorAll('div.images-wrapper div.img');
     const radioButtons = document.querySelectorAll('div.radio-button');

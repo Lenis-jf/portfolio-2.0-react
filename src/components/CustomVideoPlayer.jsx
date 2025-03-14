@@ -33,22 +33,35 @@ function CustomVideoPlayer() {
 
 		function handleScreenMode(event) {
 			const targetScreenControl = event.target.closest('.screen-controls');	
+			const header = document.querySelector('header');
 
-			if(targetScreenControl)
+			if(videoContainer && targetScreenControl && header)
 				if(targetScreenControl.classList.contains("maximize")) {
-					setScreenMode("full-screen");
+					setScreenMode("fullscreen");
+					window.scrollTo({
+						top: 0,
+						behavior: "instant"
+					  });
 					targetScreenControl.classList.remove("maximize");
 					targetScreenControl.classList.add("minimize");
-					// const mainContent = document.querySelector('.main-content');
-					// mainContent.classList.add('blurry-effect');
+					
+					header.classList.add('hidden');
+					document.documentElement.style.overflow = "hidden"
 				} else if(targetScreenControl.classList.contains("minimize")) {
 					setScreenMode("small");
+					document.documentElement.style.overflow = "auto"
 					targetScreenControl.classList.remove("minimize");
+					header.classList.remove('hidden');
+
 					targetScreenControl.classList.add("maximize");
 				} else if(targetScreenControl.classList.contains("max-width")) {
 					setScreenMode("max-width")
+					targetScreenControl.classList.remove("max-width");
+					targetScreenControl.classList.add("min-width");
 				} else if(targetScreenControl.classList.contains("min-width")) {
 					setScreenMode("min-width")
+					targetScreenControl.classList.remove("min-width");
+					targetScreenControl.classList.add("max-width");
 				}
 		}
 		
@@ -141,12 +154,12 @@ function CustomVideoPlayer() {
 	}, []);
 
 	return (
-			<div className={`video-container ${screenMode}`}>
+			<div id="fullscreen" className={`video-container ${screenMode}`}>
 				<div className="controls paused"></div>
 				<video
 					playsInline
 					webkit-playsinline="true"
-					className={`video-container ${screenMode}`}
+					className={`video-container ${screenMode}-video`}
 					src={`${process.env.PUBLIC_URL}/assets/videos/dronesim.mp4`}
 					controls={false} 
 				/>

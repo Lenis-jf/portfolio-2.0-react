@@ -20,11 +20,6 @@ body a {
     text-decoration: none;
 }
 
-body.blurry-effect *:not(.full-screen) {
-    filter: blur(10px);
-    transition: filter 0.3s ease;
-}
-
 :root {
   --light-color: #F8F3D9;
   --light2-color: #3F4F44;
@@ -48,15 +43,29 @@ div.blurry-effect {
 
 header {
     position: fixed;
-    background-color: transparent;
     width: 100%;
     top: 0;
     z-index: 1000;
     display: flex;
     justify-content: left;
     align-items: center;
-    padding: 20px 20px;    
+    padding: 20px 20px;
+    opacity: 1;
+    transition: opacity 300ms ease, background-color var(--transition-timing);
 }
+
+header.hidden {
+    opacity: 0;
+}
+
+header.light-section {
+    background-color: var(--light-color);
+}
+
+header.dark-section {
+    background-color: var(--light2-color);
+}
+
 
 label.menu {
     --new-bars-width:  calc(var(--menu-height) * 1.4);
@@ -413,6 +422,7 @@ div.project-card {
     max-width: 280px;
     height: 200px;
     margin-top: 45px;
+    cursor: pointer;
 }
 
 div.project-card .face {
@@ -736,15 +746,19 @@ section.project-info div.video-container.small {
     height: 200px;
 }
 
-section.project-info div.video-container.full-screen {
-    position: fixed;
-    width: auto;
-    height: auto;
-    background-color: transparent;
+section.project-info div.video-container.fullscreen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: #161616;
     z-index: 999;
-    justify-self: anchor-center;
-    align-self: anchor-center;
     box-shadow: none;
+    border-radius: 0;
 }
 
 section.project-info video {
@@ -753,6 +767,11 @@ section.project-info video {
     border-radius: 10px;
     object-fit: cover;   
     transition: width 300ms ease-out, height 300ms ease-out;
+}
+
+section.project-info video.fullscreen-video {
+    height: auto;
+    border-radius: 0px;
 }
 
 section.project-info div.video-container div.controls {
@@ -834,13 +853,17 @@ section.project-info div.video-container div.screen-controls.min-width {
 
 section.project-info div.video-bottom {
     display: flex;
-    width: 105%;
-    max-width: 305px;
+    width: 100%;
     height: auto;
     justify-content: center;
     align-items: center;
     gap: 5px;
     margin-top: 5px;
+}
+
+section.project-info div.video-container.fullscreen div.video-bottom {
+    width: 100%;
+    max-width: none;
 }
 
 section.project-info div.video-bottom div.video-duration-bar {
@@ -849,6 +872,14 @@ section.project-info div.video-bottom div.video-duration-bar {
     height: 6px;
     border-radius: 3px;
     background-color: rgba(0, 0, 0, 0.25);
+}
+
+section.project-info div.video-container.fullscreen div.video-bottom div.video-duration-bar {
+    background-color: rgba(214, 214, 214, 0.3);
+}
+
+section.project-info div.video-container.fullscreen div.video-bottom div.video-duration-bar div.video-progress-bar {
+    background-color: rgba(214, 214, 214, 1);
 }
 
 .video-progress-bar {
@@ -877,13 +908,31 @@ section.project-info div.video-bottom div.smallerControls.paused {
     background-image: url("icons/play-icon.svg");
 }
 
+section.project-info div.video-container.fullscreen div.video-bottom div.smallerControls.playing {
+    background-image: url("icons/pause-icon-gray.svg");
+}
+
+section.project-info div.video-container.fullscreen div.video-bottom div.smallerControls.paused {
+    background-image: url("icons/play-icon-gray.svg");
+}
+
 section.project-info div.video-bottom div.time {
     content: attr(data-time);
     font-size: 10px;
 }
 
+section.project-info div.video-container.fullscreen div.video-bottom div.time {
+    color: rgba(214, 214, 214);
+}
+
 @media screen and (min-width: 400px) {
     div.arrow {
         display: inline-block;
+    }
+}
+
+@media (orientation: landscape) {
+    section.project-info video.fullscreen-video {
+        height: 95%;
     }
 }

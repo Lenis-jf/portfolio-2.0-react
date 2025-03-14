@@ -24,6 +24,7 @@ function RouterComponent() {
 
   useEffect(() => {
     const sections = document.querySelectorAll('section.section');
+    const header = document.querySelector('header');
     const logo = document.querySelector('.logo-container');
     const labelMenu = document.querySelector('label.menu');
     const menuButtonsContainer = document.querySelector('div.menu-buttons-container');
@@ -69,12 +70,18 @@ function RouterComponent() {
 
             menuButtonsContainer.classList.add('brown-color');
             menuButtonsContainer.classList.remove('light-color');
+
+            header.classList.add('light-section');
+            header.classList.remove('dark-section');
           } else if (entry.target.classList.contains('dark-section')) {
             labelMenu.classList.add('light-color');
             labelMenu.classList.remove('brown-color');
 
             menuButtonsContainer.classList.add('light-color');
             menuButtonsContainer.classList.remove('brown-color');
+
+            header.classList.add('dark-section');
+            header.classList.remove('light-section');
           }
 
           if (id == 'home' || id == 'last-part') {
