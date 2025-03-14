@@ -144,6 +144,8 @@ function CustomVideoPlayer() {
 			<div className={`video-container ${screenMode}`}>
 				<div className="controls paused"></div>
 				<video
+					playsInline
+					webkit-playsinline="true"
 					className={`video-container ${screenMode}`}
 					src={`${process.env.PUBLIC_URL}/assets/videos/dronesim.mp4`}
 					controls={false} 
