@@ -162,6 +162,8 @@ function CustomVideoPlayer() {
 					className={`video-container ${screenMode}-video`}
 					src={`${process.env.PUBLIC_URL}/assets/videos/dronesim.mp4`}
 					controls={false} 
+					preload="metadata"
+					poster={`${process.env.PUBLIC_URL}/assets/imgs/drones-project.png`}
 				/>
 				<div className="screen-controls maximize paused"></div>
 				<div className="screen-controls max-width paused"></div>

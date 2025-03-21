@@ -22,7 +22,7 @@ function Home() {
         <p>Just touch or put your mouse on the cards to turn them and go see the GitHub repository of the project</p>
         <div className="project-card drones" tabIndex="0">
           <div className="face front">
-            <img src={`${process.env.PUBLIC_URL}/assets/imgs/drones-project.png`} alt="" />
+            <img lazyload src={`${process.env.PUBLIC_URL}/assets/imgs/drones-project.png`} alt="" />
           </div>
           <div className="face back">
             <img src={`${process.env.PUBLIC_URL}/assets/icons/github-logo.svg`} alt="" />
