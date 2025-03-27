@@ -8,7 +8,6 @@ import { HashRouter, Routes, Route, useLocation } from "react-router-dom";
 // import { BrowserRouter, Routes, Route, HashRouter } from "react-router-dom";
 
 function App() {
-
   return (
     <div>
       <HashRouter>
@@ -28,7 +27,6 @@ function RouterComponent() {
     const logo = document.querySelector('.logo-container');
     const labelMenu = document.querySelector('label.menu');
     const menuButtonsContainer = document.querySelector('div.menu-buttons-container');
-    const cards = document.querySelectorAll('.project-card');
     const sectionChangers = document.querySelectorAll('div.section-changer');
 
     function goToSection(event) {
@@ -105,36 +103,8 @@ function RouterComponent() {
       document.getElementById('home').scrollIntoView();
     }
 
-    function handleCardClick(event) {
-      if (event.target.matches("a.button.card-button")) {
-        event.stopPropagation();
-        return;
-      };
-
-      event.stopPropagation();
-
-      const card = event.currentTarget;
-
-      card.classList.toggle('flipped');
-      console.log("Card clickeada:", card);
-    }
-
-    cards.forEach(card => { card.addEventListener('click', handleCardClick) });
-
-    document.addEventListener('click', () => {
-      cards.forEach(card => {
-        if (card.classList.contains('flipped')) {
-          card.classList.remove('flipped');
-        }
-      });
-    });
-
     return () => {
       sectionObserver.disconnect();
-      if (cards)
-        cards.forEach(card => {
-          card.removeEventListener('click', handleCardClick);
-        });
       if(sectionChangers) {
         sectionChangers.forEach(sectionChanger => {
           sectionChanger.removeEventListener('click', goToSection);

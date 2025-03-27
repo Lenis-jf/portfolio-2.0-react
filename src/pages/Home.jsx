@@ -1,4 +1,5 @@
 import React from "react";
+import ProjectCard from "../components/ProjectCard";
 import { Link } from "react-router-dom";
 
 function Home() {
@@ -20,66 +21,36 @@ function Home() {
       <section id="projects" className="section dark-section">
         <p>Here are some of the projects i have worked on</p>
         <p>Just touch or put your mouse on the cards to turn them and go see the GitHub repository of the project</p>
-        <div className="project-card drones" tabIndex="0">
-          <div className="face front">
-            <img lazyload src={`${process.env.PUBLIC_URL}/assets/imgs/drones-project.png`} alt="" />
-          </div>
-          <div className="face back">
-            <img src={`${process.env.PUBLIC_URL}/assets/icons/github-logo.svg`} alt="" />
-            <a href="https://github.com/Lenis-jf/Drone-Project" className="button card-button">Show Repository</a>
-            <Link to="/dronesim" className="button card-button">See more about it</Link>
-          </div>
-        </div>
-        <div className="project-card cultural" tabIndex="0">
-          <div className="face front">
-            <img src={`${process.env.PUBLIC_URL}/assets/imgs/cultural-fitness-project.png`} alt="" />
-          </div>
-          <div className="face back">
-            <img src={`${process.env.PUBLIC_URL}/assets/icons/github-logo.svg`} alt="" />
-            <a href="https://github.com/Lenis-jf/Cultural-Fitness" className="button card-button">Show Repository</a>
-            <Link to="#" className="button card-button">See more about it</Link>
-          </div>
-        </div>
-        <div className="project-card batata" tabIndex="0">
-          <div className="face front">
-            <img src={`${process.env.PUBLIC_URL}/assets/imgs/batata-bit-project.png`} alt="" />
-          </div>
-          <div className="face back">
-            <img src={`${process.env.PUBLIC_URL}/assets/icons/github-logo.svg`} alt="" />
-            <a href="https://github.com/Lenis-jf/batatabit" className="button card-button">Show Repository</a>
-            <Link to="#" className="button card-button">See more about it</Link>
-          </div>
-        </div>
-        <div className="project-card svq" tabIndex="0">
-          <div className="face front">
-            <img src={`${process.env.PUBLIC_URL}/assets/imgs/svq-project.png`} alt="" />
-          </div>
-          <div className="face back">
-            <img src={`${process.env.PUBLIC_URL}/assets/icons/github-logo.svg`} alt="" />
-            <a href="https://github.com/Lenis-jf/batatabit" className="button card-button">Show Repository</a>
-            <Link to="#" className="button card-button">See more about it</Link>
-          </div>
-        </div>
-        <div className="project-card tyc" tabIndex="0">
-          <div className="face front">
-            <img src={`${process.env.PUBLIC_URL}/assets/imgs/tyc-project.png`} alt="" />
-          </div>
-          <div className="face back">
-            <img src={`${process.env.PUBLIC_URL}/assets/icons/github-logo.svg`} alt="" />
-            <a href="https://github.com/Lenis-jf/batatabit" className="button card-button">Show Repository</a>
-            <Link to="#" className="button card-button">See more about it</Link>
-          </div>
-        </div>
-        <div className="project-card oceano-rosa" tabIndex="0">
-          <div className="face front">
-            <img src={`${process.env.PUBLIC_URL}/assets/imgs/oceano-rosa-project.png`} alt="" />
-          </div>
-          <div className="face back">
-            <img src={`${process.env.PUBLIC_URL}/assets/icons/github-logo.svg`} alt="" />
-            <a href="https://github.com/Lenis-jf/batatabit" className="button card-button">Show Repository</a>
-            <Link to="#" className="button card-button">See more about it</Link>
-          </div>
-        </div>
+        <ProjectCard 
+          frontImage="drones-project.png"
+          repoURL="https://github.com/Lenis-jf/Drone-Project"
+          path="/dronesim"
+        />
+        <ProjectCard 
+          frontImage="cultural-fitness-project.png"
+          repoURL="https://github.com/Lenis-jf/Cultural-Fitness"
+          path="#"
+        />
+        <ProjectCard 
+          frontImage="batata-bit-project.png"
+          repoURL="https://github.com/Lenis-jf/batatabit"
+          path="#"
+        />
+        <ProjectCard 
+          frontImage="svq-project.png"
+          repoURL="https://github.com/Lenis-jf/SVQ"
+          path="#"
+        />
+        <ProjectCard 
+          frontImage="tyc-project.png"
+          repoURL="https://github.com/Lenis-jf/TYC"
+          path="#"
+        />
+        <ProjectCard 
+          frontImage="oceano-rosa-project.png"
+          repoURL="https://github.com/Lenis-jf/Oceano-Rosa.github.io"
+          path="#"
+        />
         <div className="section-changer section-changer-light abilities">
           <span>Not finished yet :)</span>
           <div></div>

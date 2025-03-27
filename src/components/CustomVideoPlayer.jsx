@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-function CustomVideoPlayer() {
+function CustomVideoPlayer(props) {
 
 	const [videoCurrentTime, updateVideoCurrentTime] = useState(0);
 	const [videoDuration, updateVideoDuration] = useState(0);
@@ -160,10 +160,10 @@ function CustomVideoPlayer() {
 					playsInline
 					webkit-playsinline="true"
 					className={`video-container ${screenMode}-video`}
-					src={`${process.env.PUBLIC_URL}/assets/videos/dronesim.mp4`}
+					src={`${process.env.PUBLIC_URL}/assets/videos/${props.video}`}
 					controls={false} 
 					preload="metadata"
-					poster={`${process.env.PUBLIC_URL}/assets/imgs/drones-project.png`}
+					poster={`${process.env.PUBLIC_URL}/assets/imgs/${props.poster}`}
 				/>
 				<div className="screen-controls maximize paused"></div>
 				<div className="screen-controls max-width paused"></div>
