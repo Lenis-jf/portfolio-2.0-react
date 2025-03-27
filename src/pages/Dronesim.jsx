@@ -17,9 +17,9 @@ function Dronesim() {
         <h2>Drones Simulation</h2>
         <CustomImageSlider
           images={[
-            `${process.env.PUBLIC_URL}/assets/imgs/dronesim-img-1.png`,
-            `${process.env.PUBLIC_URL}/assets/imgs/dronesim-img-2.png`,
-            `${process.env.PUBLIC_URL}/assets/imgs/dronesim-img-3.png`
+            `${process.env.PUBLIC_URL}/assets/imgs/dronesim-assets/dronesim-img-1.png`,
+            `${process.env.PUBLIC_URL}/assets/imgs/dronesim-assets/dronesim-img-2.png`,
+            `${process.env.PUBLIC_URL}/assets/imgs/dronesim-assets/dronesim-img-3.png`
           ]}
         />
         <p>This project was made by me and a team of other students as a project for the class “OOP in java”. The idea was to create a GUI so that a final user could retrieve specific live  information about his drone(s).</p>

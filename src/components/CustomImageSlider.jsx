@@ -93,6 +93,7 @@ function CustomImageSlider(props) {
                 <div className="images-wrapper" ref={imagesWrapperRef}>
                     {props.images.map((img, index) => (
                         <img
+                            loading='lazy'
                             key={img}
                             ref={(el) => setImageRef(el, index)}
                             src={img}

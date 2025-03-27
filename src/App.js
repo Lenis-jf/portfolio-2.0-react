@@ -2,6 +2,11 @@ import React, { useEffect } from "react";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Dronesim from "./pages/Dronesim";
+import Cultural from "./pages/Cultural";
+import Batatabit from "./pages/Batatabit";
+import Svq from "./pages/Svq";
+import Tyc from "./pages/Tyc";
+import OceanoRosa from "./pages/OceanoRosa";
 import Home from "./pages/Home";
 import Header from "./components/Header";
 import { HashRouter, Routes, Route, useLocation } from "react-router-dom";
@@ -122,6 +127,11 @@ function RouterComponent() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
         <Route path="/dronesim" element={<Dronesim />} />
+        <Route path="/cultural-fitness" element={<Cultural />} />
+        <Route path="/batatabit" element={<Batatabit />} />
+        <Route path="/svq" element={<Svq />} />
+        <Route path="/tyc" element={<Tyc />} />
+        <Route path="/oceano-rosa" element={<OceanoRosa />} />
       </Routes>
       {/* <BrowserRouter>
         <Header />

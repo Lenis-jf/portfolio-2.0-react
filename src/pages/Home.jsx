@@ -22,34 +22,34 @@ function Home() {
         <p>Here are some of the projects i have worked on</p>
         <p>Just touch or put your mouse on the cards to turn them and go see the GitHub repository of the project</p>
         <ProjectCard 
-          frontImage="drones-project.png"
+          frontImage="dronesim-assets/drones-project.png"
           repoURL="https://github.com/Lenis-jf/Drone-Project"
           path="/dronesim"
         />
         <ProjectCard 
-          frontImage="cultural-fitness-project.png"
+          frontImage="cultural-fitness-assets/cultural-fitness-project.png"
           repoURL="https://github.com/Lenis-jf/Cultural-Fitness"
-          path="#"
+          path="/cultural-fitness"
         />
         <ProjectCard 
-          frontImage="batata-bit-project.png"
+          frontImage="batatabit-assets/batata-bit-project.png"
           repoURL="https://github.com/Lenis-jf/batatabit"
-          path="#"
+          path="/batatabit"
         />
         <ProjectCard 
-          frontImage="svq-project.png"
+          frontImage="svq-assets/svq-project.png"
           repoURL="https://github.com/Lenis-jf/SVQ"
-          path="#"
+          path="/svq"
         />
         <ProjectCard 
-          frontImage="tyc-project.png"
+          frontImage="tyc-assets/tyc-project.png"
           repoURL="https://github.com/Lenis-jf/TYC"
-          path="#"
+          path="/tyc"
         />
         <ProjectCard 
-          frontImage="oceano-rosa-project.png"
+          frontImage="oceano-rosa-assets/oceano-rosa-project.png"
           repoURL="https://github.com/Lenis-jf/Oceano-Rosa.github.io"
-          path="#"
+          path="/oceano-rosa"
         />
         <div className="section-changer section-changer-light abilities">
           <span>Not finished yet :)</span>
