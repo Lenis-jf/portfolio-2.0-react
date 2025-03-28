@@ -21,11 +21,11 @@ function Svq() {
                         `${process.env.PUBLIC_URL}/assets/imgs/svq-assets/svq-img-2.png`
                     ]}
                 />
-                <p>This project was made by me and a team of other students as a project for the class “OOP in java”. The idea was to create a GUI so that a final user could retrieve specific live  information about his drone(s).</p>
+                <p>My "almost-real-client" experience! Partnered with a designer friend to create a cleaning service site based in New York City. Learned to make disinfection look chic!</p>
                 <a href="https://github.com/Lenis-jf/Drone-Project" className="button">Show Repository</a>
-                <p>Our final java application establishes a connection with an API provided by the teacher of the class to retrieve all the available information about the drones posted on the API. </p>
-                <CustomVideoPlayer video="public/assets/videos/batatabit-project.mp4" poster="svq-assets/svq-img-1.png" />
-                <p>Besides the API connection gets refreshed either automatically every 5 minutes or the user refreshes it through a refresh button. In order to establish the connection successfully, the user must be connected to the university's WiFi   </p>
+                <p>We had big plans—animation mops that danced on scroll! But life happened, and the project cleaned up early. Still, wanting to create crazy animations for the project with the new things i have learned until know :(.</p>
+                <CustomVideoPlayer video="svq-project.mp4" poster="svq-assets/svq-img-1.png" />
+                <p>Silver lining? Discovered I love making mundane services look extraordinary!</p>
                 <span className="copy-right">©juanfelenis 2025</span>
             </section>
         </div>

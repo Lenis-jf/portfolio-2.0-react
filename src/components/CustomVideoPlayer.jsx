@@ -160,7 +160,7 @@ function CustomVideoPlayer(props) {
 					playsInline
 					webkit-playsinline="true"
 					className={`video-container ${screenMode}-video`}
-					src={`${props.video}`}
+					src={`${process.env.PUBLIC_URL}/assets/videos/${props.video}`}
 					controls={false} 
 					preload="metadata"
 					poster={`${process.env.PUBLIC_URL}/assets/imgs/${props.poster}`}

@@ -22,11 +22,11 @@ function Dronesim() {
             `${process.env.PUBLIC_URL}/assets/imgs/dronesim-assets/dronesim-img-3.png`
           ]}
         />
-        <p>This project was made by me and a team of other students as a project for the class “OOP in java”. The idea was to create a GUI so that a final user could retrieve specific live  information about his drone(s).</p>
+        <p>My first big Java project! 🚀 Developed for our OOP class, this GUI app taught me the magic of APIs and teamwork. We created different sections to display live drone data from a website provided by our university with search filters and calculated metrics like current battery consumption (yes, we did math for fun!).</p>
         <a href="https://github.com/Lenis-jf/Drone-Project" className="button">Show Repository</a>
-        <p>Our final java application establishes a connection with an API provided by the teacher of the class to retrieve all the available information about the drones posted on the API. </p>
-        <CustomVideoPlayer video="public/assets/videos/dronesim.mp4" poster="dronesim-img-1.png"/>
-        <p>Besides the API connection gets refreshed either automatically every 5 minutes or the user refreshes it through a refresh button. In order to establish the connection successfully, the user must be connected to the university's WiFi   </p>
+        <p>The catch? It only worked on campus WiFi! Though challenging, this project made me fall in love with problem-solving. Who knew connecting to an API could feel like cracking a secret code?</p>
+        <CustomVideoPlayer video="dronesim.mp4" poster="dronesim-img-1.png" />
+        <p>Looking back, it’s raw and beginner-friendly—exactly how learning should feel. My proudest moment? When our pagination function actually worked!</p>
         <span className="copy-right">©juanfelenis 2025</span>
       </section>
     </div>
