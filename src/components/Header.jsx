@@ -13,10 +13,10 @@ function Header() {
                     <span>Home</span>
                 </Link>
                 <a href="/" className="menu-button brown-color light-theme">
-                    <span>Projects</span>
+                    <span>Work</span>
                 </a>
                 <Link to="/contact" className="menu-button brown-color light-theme">
-                    <span>Contact</span>
+                    <span>Me</span>
                 </Link>
                 <Link to="/about" className="menu-button brown-color light-theme">
                     <span>About</span>

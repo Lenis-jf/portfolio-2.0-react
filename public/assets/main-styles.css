@@ -616,10 +616,11 @@ span.copy-right {
 
 section.project-info {
     position: relative;
+    padding-bottom: 180px;
 }
 
-section.project-info#cultural {
-    padding-bottom: 200px;
+section.project-info#svq {
+    padding-bottom: 120px;
 }
 
 section.project-info h2 {

@@ -14,7 +14,7 @@ function OceanoRosa() {
     return (
         <div className="main-content">
             <section id="oceano-rosa" className="section light-section project-info">
-                <h2>Pink Ocean</h2>
+                <h2>Océano Rosa</h2>
                 <CustomImageSlider
                     images={[
                         `${process.env.PUBLIC_URL}/assets/imgs/oceano-rosa-assets/oceano-rosa-img-1.png`,
@@ -29,6 +29,7 @@ function OceanoRosa() {
                 <a href="https://github.com/Lenis-jf/Drone-Project" className="button">Show Repository</a>
                 <p>Though the business closed, the site remains a sweet memory. It taught me how to make grids behave and why mobile-first isn’t just a buzzword!</p>
                 <CustomVideoPlayer video="oceano-rosa-project.mp4" poster="oceano-rosa-assets/oceano-rosa-img-1.png" />
+                <a href="https://lenis-jf.github.io/Oceano-Rosa.github.io/index.html" className="button">View Website</a>
                 <span className="copy-right">©juanfelenis 2025</span>
             </section>
         </div>

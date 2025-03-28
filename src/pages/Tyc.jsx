@@ -28,6 +28,7 @@ function Tyc() {
                 <p>Though unfinished, TYC reignited my coding spark. It’s like a time capsule showing my early attempts at making websites feel alive. Bonus: I finally understood z-index layers!</p>
                 <CustomVideoPlayer video="tyc-project.mp4" poster="tyc-assets/tyc-img-1.png" />
                 <p>Fun fact: The name TYC stands for "Trying Your Code" – which is exactly what I did here!</p>
+                <a href="https://lenis-jf.github.io/TYC/index.html" className="button">View Website</a>
                 <span className="copy-right">©juanfelenis 2025</span>
             </section>
         </div>
