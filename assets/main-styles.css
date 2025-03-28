@@ -423,6 +423,7 @@ div.project-card {
     height: 200px;
     margin-top: 45px;
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
 }
 
 div.project-card .face {
@@ -617,6 +618,10 @@ section.project-info {
     position: relative;
 }
 
+section.project-info#cultural {
+    padding-bottom: 200px;
+}
+
 section.project-info h2 {
     margin-top: 60px;
     color: var(--foreground-brown-color);
@@ -638,7 +643,12 @@ section.project-info a.button {
     height: 40px;
 }
 
+section.project-info a.button:nth-of-type(2) {
+    margin-top: 80px;
+}
+
 div.img-presentator-container {
+    position: relative;
     display: flex;;
     width: 100%;
     max-width: 430px;
@@ -648,29 +658,35 @@ div.img-presentator-container {
     margin: 20px 0px 5px 0px;
 }
 
-div.arrow {
+button.arrow {
     display: none;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    outline: none;
     width: 32px;
     height: 32px;
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
     cursor: pointer;
+    --webkit-tap-highlight-color: transparent;
 }
 
-div.left-arrow {
+button.left-arrow {
     background-image: url("icons/keyboard-arrow-down-brown.svg");
     transform: rotate(90deg);
 }
 
-div.right-arrow {
+button.right-arrow {
     background-image: url("icons/keyboard-arrow-down-brown.svg");
     transform: rotate(-90deg);
 }
 
 div.images-wrapper {
-    display: grid;
-    grid-template-columns: repeat(4, 280px);
+    display: flex;
     width: 280px;
     height: 200px;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
@@ -678,58 +694,52 @@ div.images-wrapper {
     overflow-x: scroll;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch; /* Mejor scroll en iOS */
     margin: 0px auto;
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* IE y Edge */
 }
 
-div.imges-wrapper::-webkit-scrollbar {
+div.images-wrapper::-webkit-scrollbar {
     display: none; /* Chrome, Safari y Edge */
 }
 
-div.images-wrapper div.img {
+div.images-wrapper img.img {
+    flex-shrink: 0;
     width: 100%;
     height: 100%;
-    background-size: cover;
-    background-position: center;
     scroll-snap-align: start;
-}
-
-div#first-img {
-    background-image: url("imgs/dronesim-img-1.png");
-}
-
-div#img-2 {
-    background-image: url("imgs/dronesim-img-2.png");
-}
-
-div#last-img {
-    background-image: url("imgs/dronesim-img-3.png");
+    pointer-events: none;
 }
 
 div.radio-buttons-container {
     display: flex;
     justify-content: center;
     width: 100%;
+    margin-top: 15px;
     gap: 10px;
 }
 
-div.radio-button {
+button.radio-button {
     width: 10px;
     height: 10px;
+    min-width: 10px;
+    min-height: 10px;
     border-radius: 50%;
-    background-color: var(--foreground-brown-color);
-    cursor: pointer;
-    margin-top: 20px;
+    background: var(--foreground-brown-color);
     cursor: pointer;
     opacity: 0.3;
+    flex-shrink: 0;
+    border: none;
+    padding: 0;
+    transition: opacity 0.3s ease;
 }
 
-div.radio-button.active {
+button.radio-button.active {
     opacity: 1;
 }
 
-div.arrow.unenabled {
+button.arrow.unenabled {
     opacity: 0.3;
 }
 
@@ -926,7 +936,7 @@ section.project-info div.video-container.fullscreen div.video-bottom div.time {
 }
 
 @media screen and (min-width: 400px) {
-    div.arrow {
+    button.arrow {
         display: inline-block;
     }
 }
