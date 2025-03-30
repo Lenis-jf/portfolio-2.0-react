@@ -9,11 +9,11 @@ function CustomImageSlider(props) {
     const radioButtonRefs = useRef([]);
 
     const goToPrevImage = () => {
-        setCurrentIndex(prev => (prev === 0 ? props.images.length - 1 : prev - 1));
+        setCurrentIndex(prev => (prev === 0 ? prev: prev - 1));
     };
 
     const goToNextImage = () => {
-        setCurrentIndex(prev => (prev === props.images.length - 1 ? 0 : prev + 1));
+        setCurrentIndex(prev => (prev === props.images.length - 1 ? prev : prev + 1));
     };
 
     const setImageRef = useCallback((element, index) => {
