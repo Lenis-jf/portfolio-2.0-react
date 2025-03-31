@@ -22,15 +22,25 @@ function ProjectCard(props) {
       event.stopPropagation();
       return;
     }
-
-    setIsFlipped(!isFlipped);
-
-    if (smallCardRef.current && !isFlipped) {
-      smallCardRef.current.style.animationPlayState = "running";
-    } else if (isFlipped && smallCardRef.current) {
-      smallCardRef.current.style.animationDirection = "reverse";
-      smallCardRef.current.style.animationPlayState = "paused";
-      smallCardRef.current.style.animationPlayState = "running";
+  
+    const newIsFlipped = !isFlipped;
+    setIsFlipped(newIsFlipped);
+  
+    if (smallCardRef.current) {
+      const direction = newIsFlipped ? "normal" : "reverse";
+      const animationDelay = newIsFlipped ? "0s" : "0.5s"; 
+      const flipTransitionDelay = newIsFlipped ? "1s" : "0s"; // 1s = nueva duración de cardOut
+  
+      // Resetear opacidad según dirección
+      smallCardRef.current.style.opacity = direction === "reverse" ? "0" : "1";
+      
+      // Sincronizar delays
+      cardRef.current.style.setProperty("--flip-delay", flipTransitionDelay);
+      
+      // Reiniciar animación
+      smallCardRef.current.style.animation = "none";
+      void smallCardRef.current.offsetWidth;
+      smallCardRef.current.style.animation = `cardOut 1s ease-in ${animationDelay} 1 ${direction} forwards`;
     }
   };
 

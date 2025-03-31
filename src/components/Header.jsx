@@ -26,7 +26,7 @@ function Header() {
         const root = document.documentElement;
         const sections = document.querySelectorAll('section.section');
         const divHR = document.querySelector('div.hr');
-        const githubLogos = document.querySelectorAll("div.face.back img"); 
+        const githubLogos = document.querySelectorAll("div.face.back img");
 
         if (isDarkMode) {
             root.classList.add("dark-theme");
@@ -35,7 +35,7 @@ function Header() {
 
             divHR?.classList.add('dark-theme');
 
-            githubLogos?.forEach(logo => logo.src=`${process.env.PUBLIC_URL}/assets/icons/github-logo-light.svg`);
+            githubLogos?.forEach(logo => logo.src = `${process.env.PUBLIC_URL}/assets/icons/github-logo-light.svg`);
         } else {
             root.classList.remove("dark-theme");
 
@@ -43,7 +43,7 @@ function Header() {
 
             divHR?.classList.remove('dark-theme');
 
-            githubLogos?.forEach(logo => logo.src=`${process.env.PUBLIC_URL}/assets/icons/github-logo.svg`);
+            githubLogos?.forEach(logo => logo.src = `${process.env.PUBLIC_URL}/assets/icons/github-logo.svg`);
         }
 
         console.log(localStorage.getItem("dark-theme"));
@@ -52,7 +52,7 @@ function Header() {
 
     useEffect(() => {
         const sections = document.querySelectorAll('section.section');
-        const sectionChangers = document.querySelectorAll('div.section-changer-dark');
+        const sectionChangers = document.querySelectorAll('div.section-changer');
         const header = document.querySelector('header');
         const labelMenu = document.querySelector('label.menu');
         const menuButtonsContainer = document.querySelector('div.menu-buttons-container');
@@ -88,22 +88,12 @@ function Header() {
                             header.classList.add('dark-section');
                             header.classList.remove('light-section');
 
-                            sectionChangers.forEach(sectionChanger => {
-                                sectionChanger.classList.remove('section-changer-light');
-                                sectionChanger.classList.add('section-changer-dark');
-                            });
-
                             document.body.style.backgroundColor = "#3F4F44";
                         }
-                    } else if(isDarkMode) {
+                    } else if (isDarkMode) {
                         if (entry.target.classList.contains('light-section')) {
                             header.classList.add('light-section');
                             header.classList.remove('dark-section');
-
-                            sectionChangers.forEach(sectionChanger => {
-                                sectionChanger.classList.remove('section-changer-dark');
-                                sectionChanger.classList.add('section-changer-light');
-                            });
 
                             document.body.style.backgroundColor = "#3C3D37"
                         } else if (entry.target.classList.contains('dark-section')) {
@@ -128,6 +118,26 @@ function Header() {
         sections.forEach(section => {
             sectionObserver.observe(section);
         });
+
+        if (isDarkMode) {
+            sectionChangers.forEach(sectionChanger => {
+                if (sectionChanger.classList.contains("section-changer-dark")) {
+                    sectionChanger.classList.remove('section-changer-dark');
+                    sectionChanger.classList.add('section-changer-light');
+                }
+            });
+        } else if (!isDarkMode) {
+            sectionChangers.forEach(sectionChanger => {
+                const parentSection = sectionChanger.closest('section');
+
+                if (parentSection && parentSection.classList.contains('light-section')) {
+                    if (sectionChanger.classList.contains("section-changer-light")) {
+                        sectionChanger.classList.remove('section-changer-light');
+                        sectionChanger.classList.add('section-changer-dark');
+                    }
+                }
+            });
+        }
 
         return () => {
             sectionObserver.disconnect();

@@ -397,6 +397,7 @@ div.section-changer {
 }
 
 div.section-changer-dark {
+    color: var(--foreground-brown-color);
     margin-top: 100px; 
 }
 
@@ -481,7 +482,7 @@ div.project-card div.small-info-card {
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     transition: opacity 0,3s ease-in;
 
-    animation-duration: 2s;
+    animation-duration: 1s;
     animation-name: cardOut;
     animation-timing-function: ease-in;
     animation-delay: 0s;
@@ -550,7 +551,11 @@ div.project-card .face {
     overflow: hidden;
     transform-style: preserve-3d;
     transition: transform 0.5s ease-in-out;
-    transition-delay: 1.5s;
+    transition-delay: var(--flip-delay, 1.5s);
+}
+
+div.project-card.flipped .face {
+    transition-delay: var(--flip-delay, 0s)
 }
 
 div.project-card .front img {
@@ -597,6 +602,10 @@ section#abilities {
     background-color: var(--light-color);
     color: var(--foreground-brown-color);
     text-align: center;
+}
+
+section#abilities span {
+    color: var(--foreground-brown-color)
 }
 
 section#abilities p {
