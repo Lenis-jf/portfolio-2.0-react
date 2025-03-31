@@ -54,7 +54,7 @@ header {
     align-items: center;
     padding: 10px 20px;
     opacity: 1;
-    transition: opacity 500ms ease-out, background-color 500ms ease-in-out;
+    transition: opacity 350ms ease-out, background-color 350ms ease-in-out;
 }
 
 header.hidden {
@@ -303,7 +303,7 @@ section {
 }
 
 section h1, section h2, section p, section div {
-    transition: opacity 500ms ease-in-out
+    transition: opacity 350ms ease-in-out
 }
 
 section.hidden h1, section.hidden h2, section.hidden p, section.hidden div {
@@ -493,7 +493,8 @@ div.project-card div.small-info-card {
 
 @keyframes cardOut {
     0% {
-
+        transform: translate(0px, 0px) scale(1, 1);
+        opacity: 1;
     }
     50% {
         transform: translate(0px, 25px) scale(1.1, 0.6);

@@ -29,6 +29,7 @@ function ProjectCard(props) {
       smallCardRef.current.style.animationPlayState = "running";
     } else if (isFlipped && smallCardRef.current) {
       smallCardRef.current.style.animationDirection = "reverse";
+      smallCardRef.current.style.animationPlayState = "paused";
       smallCardRef.current.style.animationPlayState = "running";
     }
   };
