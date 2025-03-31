@@ -28,10 +28,7 @@ function RouterComponent() {
 
   useEffect(() => {
     const sections = document.querySelectorAll('section.section');
-    const header = document.querySelector('header');
-    const logo = document.querySelector('.logo-container');
-    const labelMenu = document.querySelector('label.menu');
-    const menuButtonsContainer = document.querySelector('div.menu-buttons-container');
+
     const sectionChangers = document.querySelectorAll('div.section-changer');
 
     function goToSection(event) {
@@ -67,31 +64,8 @@ function RouterComponent() {
           console.log("Sección visible:", id);
           console.log("Sección visible:", entry.target.classList);
 
-          if (entry.target.classList.contains('light-section')) {
-            labelMenu.classList.add('brown-color');
-            labelMenu.classList.remove('light-color');
-
-            menuButtonsContainer.classList.add('brown-color');
-            menuButtonsContainer.classList.remove('light-color');
-
-            header.classList.add('light-section');
-            header.classList.remove('dark-section');
-          } else if (entry.target.classList.contains('dark-section')) {
-            labelMenu.classList.add('light-color');
-            labelMenu.classList.remove('brown-color');
-
-            menuButtonsContainer.classList.add('light-color');
-            menuButtonsContainer.classList.remove('brown-color');
-
-            header.classList.add('dark-section');
-            header.classList.remove('light-section');
-          }
-
-          if (id == 'home' || id == 'last-part') {
-            logo.classList.add('hidden');
-          } else {
-            logo.classList.remove('hidden');
-          }
+          entry.target.classList.remove('hidden');
+          entry.target.classList.add('visible');
         }
       });
     }, observerOptions);

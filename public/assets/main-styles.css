@@ -33,25 +33,28 @@ body a {
   --menu-height: calc(var(--bar-height) * 3 + var(--bars-gap) * 2);
 }
 
-div.blurry-effect {
-    filter: blur(10px);
-    transition: filter 0.3s ease;
-    z-index: 1;
-}
+.dark-theme {
+    --light-color: #3C3D37;
+    --light2-color: #1E201E;
+    --foreground-brown-color: #ECDFCC;
+  }
 
 /*HEADER---------------------------------------------------------------------------------------*/ 
 
 header {
     position: fixed;
-    width: 100%;
-    top: 0;
+    width: 95%;
+    top: 2%;
+    left: calc(50% - 47.5%);
+    border-radius: 15px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);
     z-index: 1000;
     display: flex;
     justify-content: left;
     align-items: center;
-    padding: 20px 20px;
+    padding: 10px 20px;
     opacity: 1;
-    transition: opacity 300ms ease, background-color var(--transition-timing);
+    transition: opacity 500ms ease, background-color var(--transition-timing);
 }
 
 header.hidden {
@@ -65,7 +68,6 @@ header.light-section {
 header.dark-section {
     background-color: var(--light2-color);
 }
-
 
 label.menu {
     --new-bars-width:  calc(var(--menu-height) * 1.4);
@@ -123,7 +125,7 @@ label.menu:has(input:checked)::after {
     width: var(--new-bars-width);
 }
 
-div.menu-buttons-container {
+header div.menu-buttons-container {
     position: absolute;
     left: calc(var(--bar-width) + 25px);
     display: flex;
@@ -134,7 +136,7 @@ div.menu-buttons-container {
     transition: opacity var(--transition-timing), color var(--transition-timing), border-color var(--transition-timing);
 }
 
-div.menu-buttons-container a.menu-button {
+header div.menu-buttons-container a.menu-button {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -145,12 +147,16 @@ div.menu-buttons-container a.menu-button {
     pointer-events: none;
 }
 
-div.menu-buttons-container.brown-color a.menu-button {
+header.dark-theme div.menu-buttons-container a.menu-button {
+    color: var(--foreground-brown-color);
+}
+
+header div.menu-buttons-container.brown-color a.menu-button {
     color: var(--light-brown-color);
     border: solid 1px var(--foreground-brown-color);
 }
 
-div.menu-buttons-container.light-color a.menu-button {
+header div.menu-buttons-container.light-color a.menu-button {
     color: var(--light-color);
     border: solid 1px var(--light-color);
 }
@@ -283,6 +289,18 @@ section {
     scroll-snap-align: start;
 }
 
+section h1, section h2, section p, section div {
+    transition: opacity 500ms ease-in-out
+}
+
+section.hidden h1, section.hidden h2, section.hidden p, section.hidden div {
+    opacity: 0;
+}
+
+section.visible h1, section.visible h2, section.visible p, section.visible div {
+    opacity: 1;
+}
+
 section#home {
     justify-content: center;
     background-color: var(--light-color);
@@ -318,6 +336,10 @@ div.hr::before {
     background-position: center;    
 }
 
+section.dark-theme div.hr::before {
+    background-image: url("icons/arrow-deco-light-color.svg");
+}
+
 h1 {
     text-align: center;
     font-weight: 400;
@@ -326,7 +348,7 @@ h1 {
 div.buttons-container {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 5px;
     width: max-content;    
 }
 
@@ -357,16 +379,18 @@ div.section-changer {
    -webkit-tap-highlight-color: transparent;
 }
 
+section.dark-theme div.section-changer {
+    color: var(--foreground-brown-color);
+}
+
 div.section-changer-dark {
     margin-top: 100px; 
-    color: var(--foreground-brown-color);    
 }
 
 div.section-changer div{
     width: 31px;
     height: 17px;
     background-size: cover;
-    background-image: url("icons/keyboard-arrow-down-light-color.svg");
     background-position: bottom;
 }
 
@@ -374,8 +398,16 @@ div.section-changer.home div{
     transform: rotate(180deg);
 }
 
-div.section-changer-dark div{
+div.section-changer-dark div {
     background-image: url("icons/keyboard-arrow-down-brown.svg");
+}
+
+section.dark-theme div.section-changer-dark {
+    color: var(--foreground-brown-color);
+}
+
+section.dark-theme div.section-changer-dark div {
+    background-image: url("icons/keyboard-arrow-down-light-color.svg");
 }
 
 @media screen and (min-width: 360px) {
@@ -398,21 +430,25 @@ section#projects {
     padding: 40px 20px 100px 20px;
 }
 
-section#projects p {
+section#projects.dark-theme p {
     margin-top: 50px;
     max-width: 480px;
+    color: var(--foreground-brown-color);
+}
+
+section#projects.dark-theme span {
+    color: var(--foreground-brown-color);
 }
 
 section#projects p:nth-child(2) {
     margin: 30px 0px 40px 0px;
 }
 
-a.section-changer-light {
-    margin-top: 80px;
-    color: var(--light-color);
+section#projects div.section-changer {
+    margin-top: 150px;
 }
 
-a.section-changer-light div {
+div.section-changer-light div {
     background-image: url("icons/keyboard-arrow-down-light-color.svg");
 }
 
@@ -421,9 +457,60 @@ div.project-card {
     width: 85%;
     max-width: 280px;
     height: 200px;
-    margin-top: 45px;
+    margin-top: 60px;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
+}
+
+div.project-card:first-of-type {
+    margin-top: 45px;
+}
+
+div.project-card div.small-info-card {
+    position: absolute;
+    top: 145px;
+    left: calc(50% - 100px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 80px;
+    flex-direction: column;
+    color: var(--foreground-brown-color);
+    background-color: var(--light-color);
+    border-radius: 10px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    transition: opacity 0.3s ease-out;
+}
+
+div.project-card.flipped div.small-info-card {
+    opacity: 0;
+    visibility: hidden;
+}
+
+div.small-info-card h4, div.small-info-card h6, section#projects div.small-info-card p {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: fit-content;
+}
+
+div.small-info-card h4 {
+    font-size: 1rem;
+}
+
+div.small-info-card h6 {
+    font-size: 0.8rem;
+    font-style: italic;
+    margin-bottom: 5px;
+    opacity: 0.8;
+}
+
+section#projects div.small-info-card p {
+    font-size: 0.75rem;
+    padding: 0 5px;
+    line-height: 10px;
+    opacity: 0.6;
 }
 
 div.project-card .face {
@@ -560,6 +647,15 @@ section#last-part {
     color: var(--light-color);
 }
 
+section#last-part.dark-theme, section#last-part.dark-theme span {
+    color: var(--foreground-brown-color);
+}
+
+section#last-part.dark-theme a.button {
+    color: var(--foreground-brown-color);
+    border-color: var(--foreground-brown-color);
+}
+
 section#last-part a.button {
     color: var(--light-color);
     border: solid 1.5px var(--light-color);
@@ -617,6 +713,10 @@ span.copy-right {
 section.project-info {
     position: relative;
     padding-bottom: 180px;
+}
+
+section.project-info.dark-theme {
+    color: var(--foreground-brown-color);
 }
 
 section.project-info#svq {
@@ -684,6 +784,10 @@ button.left-arrow {
 button.right-arrow {
     background-image: url("icons/keyboard-arrow-down-brown.svg");
     transform: rotate(-90deg);
+}
+
+section.dark-theme button.left-arrow, section.dark-theme button.right-arrow {
+    background-image: url("icons/keyboard-arrow-down-light-color.svg");
 }
 
 div.images-wrapper {
@@ -908,7 +1012,15 @@ section.project-info div.video-container.fullscreen div.video-bottom div.video-d
     background-color: rgba(214, 214, 214, 0.3);
 }
 
+section.project-info.dark-theme div.video-container div.video-bottom div.video-duration-bar {
+    background-color: rgba(214, 214, 214, 0.3);
+}
+
 section.project-info div.video-container.fullscreen div.video-bottom div.video-duration-bar div.video-progress-bar {
+    background-color: rgba(214, 214, 214, 1);
+}
+
+section.project-info.dark-theme div.video-container div.video-bottom div.video-duration-bar div.video-progress-bar {
     background-color: rgba(214, 214, 214, 1);
 }
 
@@ -936,6 +1048,14 @@ section.project-info div.video-bottom div.smallerControls.playing {
 
 section.project-info div.video-bottom div.smallerControls.paused {
     background-image: url("icons/play-icon.svg");
+}
+
+section.project-info.dark-theme div.video-bottom div.smallerControls.playing {
+    background-image: url("icons/pause-icon-gray.svg");
+}
+
+section.project-info.dark-theme div.video-bottom div.smallerControls.paused {
+    background-image: url("icons/play-icon-gray.svg");
 }
 
 section.project-info div.video-container.fullscreen div.video-bottom div.smallerControls.playing {

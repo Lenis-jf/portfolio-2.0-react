@@ -42,6 +42,11 @@ function ProjectCard(props) {
         <a href={props.repoURL} className="button card-button">Show Repository</a>
         <Link to={props.path} className="button card-button">See more about it</Link>
       </div>
+      <div className="small-info-card">
+        <h4>{props.projectTitle}</h4>
+        <h6>Built with:</h6>
+        <p>{props.tools}</p>
+      </div>
     </div>
   );
 }
