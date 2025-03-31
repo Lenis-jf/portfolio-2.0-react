@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 function ProjectCard(props) {
   const [isFlipped, setIsFlipped] = useState(false);
   const cardRef = useRef(null);
+  const smallCardRef = useRef(null);
 
   useEffect(() => {
     const handleDocumentClick = (event) => {
@@ -21,11 +22,19 @@ function ProjectCard(props) {
       event.stopPropagation();
       return;
     }
+
     setIsFlipped(!isFlipped);
+
+    if (smallCardRef.current && !isFlipped) {
+      smallCardRef.current.style.animationPlayState = "running";
+    } else if (isFlipped && smallCardRef.current) {
+      smallCardRef.current.style.animationDirection = "reverse";
+      smallCardRef.current.style.animationPlayState = "running";
+    }
   };
 
   return (
-    <div 
+    <div
       className={`project-card ${isFlipped ? "flipped" : ""}`}
       tabIndex="0"
       onClick={handleCardClick}
@@ -42,7 +51,7 @@ function ProjectCard(props) {
         <a href={props.repoURL} className="button card-button">Show Repository</a>
         <Link to={props.path} className="button card-button">See more about it</Link>
       </div>
-      <div className="small-info-card">
+      <div className="small-info-card" ref={smallCardRef}>
         <h4>{props.projectTitle}</h4>
         <h6>Built with:</h6>
         <p>{props.tools}</p>

@@ -33,7 +33,7 @@ body a {
   --menu-height: calc(var(--bar-height) * 3 + var(--bars-gap) * 2);
 }
 
-.dark-theme {
+:root.dark-theme {
     --light-color: #3C3D37;
     --light2-color: #1E201E;
     --foreground-brown-color: #ECDFCC;
@@ -54,7 +54,7 @@ header {
     align-items: center;
     padding: 10px 20px;
     opacity: 1;
-    transition: opacity 500ms ease, background-color var(--transition-timing);
+    transition: opacity 500ms ease-out, background-color 500ms ease-in-out;
 }
 
 header.hidden {
@@ -102,6 +102,10 @@ label.menu.light-color::before, label.menu.light-color::after, label.menu.light-
     background-color: var(--light-color);
 }
 
+header.dark-theme label.menu.light-color::before, header.dark-theme label.menu.light-color::after, header.dark-theme label.menu.light-color input {
+    background-color: var(--foreground-brown-color);
+}
+
 label.menu input {
     appearance: none;
     padding: 0;
@@ -133,6 +137,7 @@ header div.menu-buttons-container {
     justify-content: center;
     align-items: center;
     opacity: 0;
+    color: var(--foreground-brown-color);
     transition: opacity var(--transition-timing), color var(--transition-timing), border-color var(--transition-timing);
 }
 
@@ -143,20 +148,16 @@ header div.menu-buttons-container a.menu-button {
     border-radius: 5px;
     font-size: 10px;
     width: 40px;
-    height: 20px;;
+    height: 20px;
     pointer-events: none;
 }
 
-header.dark-theme div.menu-buttons-container a.menu-button {
+header div.menu-buttons-container.brown-color a.menu-button, header.dark-theme div.menu-buttons-container.dark-theme a.menu-button.dark-theme {
     color: var(--foreground-brown-color);
-}
-
-header div.menu-buttons-container.brown-color a.menu-button {
-    color: var(--light-brown-color);
     border: solid 1px var(--foreground-brown-color);
 }
 
-header div.menu-buttons-container.light-color a.menu-button {
+header div.menu-buttons-container.light-color a.menu-button, header.dark-theme div.menu-buttons-container.dark-theme a.menu-button.dark-theme {
     color: var(--light-color);
     border: solid 1px var(--light-color);
 }
@@ -188,13 +189,21 @@ label.darkmode-button-container.brown-color {
     background-color: var(--foreground-brown-color);
 }
 
+header.dark-theme label.darkmode-button-container.brown-color {
+    background-color: var(--light-color);
+}
+
 label.darkmode-button-container.light-color {
     background-color: var(--light-color);
 }
 
+header.dark-theme label.darkmode-button-container.light-color {
+    background-color: var(--foreground-brown-color);
+}
+
 label.darkmode-button-container.brown-color input {
     position: absolute;
-    left: -2px;
+    left: -1px;
     top: calc(50% - 10.5px);
     appearance: none;   
     width: 15px;
@@ -213,7 +222,7 @@ label.darkmode-button-container.brown-color input {
 }
 
 label.darkmode-button-container.light-color input {
-    background-color: var(--light-brown-color);
+    background-color: var(--foreground-brown-color);
 }
 
 label.darkmode-button-container::after {
@@ -225,7 +234,8 @@ label.darkmode-button-container::after {
     background-size: cover;
     background-position: center;
     z-index: 1;
-    left: 64%;
+    right: 2px;
+    top: calc(50% - 6.5px);
 }
 
 label.darkmode-button-container::before {
@@ -237,7 +247,8 @@ label.darkmode-button-container::before {
     background-size: cover;
     background-position: center;
     z-index: 1;
-    left: 1px;
+    left: 2px;
+    top: calc(50% - 6.5px);
 }
 
 label.darkmode-button-container:has(input:checked) {
@@ -247,7 +258,7 @@ label.darkmode-button-container:has(input:checked) {
 }
 
 label.darkmode-button-container:has(input:checked) input {
-    transform: translateX(calc(150% - 2.5px));
+    transform: translateX(calc(100% + 3.5px));
     background-color: var(--foreground-brown-color);
 }
 
@@ -287,6 +298,8 @@ section {
     text-align: center;
     padding: 40px 20px 80px 20px;
     scroll-snap-align: start;
+    color: var(--foreground-brown-color);
+    transition: background-color 500ms ease-in-out
 }
 
 section h1, section h2, section p, section div {
@@ -305,6 +318,10 @@ section#home {
     justify-content: center;
     background-color: var(--light-color);
     height: 100vh;
+    color: var(--foreground-brown-color);
+}
+
+section#home.dark-theme span {
     color: var(--foreground-brown-color);
 }
 
@@ -336,7 +353,7 @@ div.hr::before {
     background-position: center;    
 }
 
-section.dark-theme div.hr::before {
+div.hr.dark-theme::before {
     background-image: url("icons/arrow-deco-light-color.svg");
 }
 
@@ -379,10 +396,6 @@ div.section-changer {
    -webkit-tap-highlight-color: transparent;
 }
 
-section.dark-theme div.section-changer {
-    color: var(--foreground-brown-color);
-}
-
 div.section-changer-dark {
     margin-top: 100px; 
 }
@@ -402,14 +415,6 @@ div.section-changer-dark div {
     background-image: url("icons/keyboard-arrow-down-brown.svg");
 }
 
-section.dark-theme div.section-changer-dark {
-    color: var(--foreground-brown-color);
-}
-
-section.dark-theme div.section-changer-dark div {
-    background-image: url("icons/keyboard-arrow-down-light-color.svg");
-}
-
 @media screen and (min-width: 360px) {
     section#home {
         height: 100vh;
@@ -427,18 +432,12 @@ section#projects {
     background-color: var(--light2-color);
     color: var(--light-color);
     text-align: center;
-    padding: 40px 20px 100px 20px;
+    padding: 90px 20px 100px 20px;
 }
 
-section#projects.dark-theme p {
-    margin-top: 50px;
-    max-width: 480px;
+section#projects.dark-theme p, section#projects.dark-theme span {
     color: var(--foreground-brown-color);
-}
-
-section#projects.dark-theme span {
-    color: var(--foreground-brown-color);
-}
+} 
 
 section#projects p:nth-child(2) {
     margin: 30px 0px 40px 0px;
@@ -480,12 +479,39 @@ div.project-card div.small-info-card {
     background-color: var(--light-color);
     border-radius: 10px;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    transition: opacity 0.3s ease-out;
+    transition: opacity 0,3s ease-in;
+
+    animation-duration: 2s;
+    animation-name: cardOut;
+    animation-timing-function: ease-in;
+    animation-delay: 0s;
+    animation-iteration-count: 1;
+    animation-direction: normal;
+    animation-play-state: paused;
+    animation-fill-mode: forwards;
 }
 
-div.project-card.flipped div.small-info-card {
-    opacity: 0;
-    visibility: hidden;
+@keyframes cardOut {
+    0% {
+
+    }
+    50% {
+        transform: translate(0px, 25px) scale(1.1, 0.6);
+        opacity: 0.4;
+    }
+    60% {
+        opacity: 0.3;
+    }
+    70% {
+        opacity: 0.2;
+    }
+    80% {
+        opacity: 0.1;
+    }
+    100% {
+        transform: translate(calc(100% + 220px), 25px) scale(1.1, 0.6);
+        opacity: 0;
+    }
 }
 
 div.small-info-card h4, div.small-info-card h6, section#projects div.small-info-card p {
@@ -523,6 +549,7 @@ div.project-card .face {
     overflow: hidden;
     transform-style: preserve-3d;
     transition: transform 0.5s ease-in-out;
+    transition-delay: 1.5s;
 }
 
 div.project-card .front img {
@@ -647,19 +674,19 @@ section#last-part {
     color: var(--light-color);
 }
 
-section#last-part.dark-theme, section#last-part.dark-theme span {
+section#last-part.dark-theme p, section#last-part.dark-theme span{
     color: var(--foreground-brown-color);
-}
-
-section#last-part.dark-theme a.button {
-    color: var(--foreground-brown-color);
-    border-color: var(--foreground-brown-color);
-}
+} 
 
 section#last-part a.button {
     color: var(--light-color);
     border: solid 1.5px var(--light-color);
     margin-top: 30px;
+}
+
+section#last-part.dark-theme a.button {
+    color: var(--foreground-brown-color);
+    border: solid 1.5px var(--foreground-brown-color);
 }
 
 section#last-part a.section-changer div {
@@ -674,6 +701,10 @@ section#contact {
     background-color: var(--light2-color);
     color: var(--light-color);
     max-height: 100vh;
+}
+
+section#contact.dark-theme p, section#contact.dark-theme span {
+    color: var(--foreground-brown-color);
 }
 
 section#contact div.icons-container {
@@ -713,10 +744,6 @@ span.copy-right {
 section.project-info {
     position: relative;
     padding-bottom: 180px;
-}
-
-section.project-info.dark-theme {
-    color: var(--foreground-brown-color);
 }
 
 section.project-info#svq {
@@ -781,13 +808,19 @@ button.left-arrow {
     transform: rotate(90deg);
 }
 
+section.dark-theme button.left-arrow {
+    background-image: url("icons/keyboard-arrow-down-light-color.svg");
+    transform: rotate(90deg);
+}
+
 button.right-arrow {
     background-image: url("icons/keyboard-arrow-down-brown.svg");
     transform: rotate(-90deg);
 }
 
-section.dark-theme button.left-arrow, section.dark-theme button.right-arrow {
+section.dark-theme button.right-arrow {
     background-image: url("icons/keyboard-arrow-down-light-color.svg");
+    transform: rotate(-90deg);
 }
 
 div.images-wrapper {
@@ -1012,7 +1045,7 @@ section.project-info div.video-container.fullscreen div.video-bottom div.video-d
     background-color: rgba(214, 214, 214, 0.3);
 }
 
-section.project-info.dark-theme div.video-container div.video-bottom div.video-duration-bar {
+section.dark-theme div.video-container div.video-bottom div.video-duration-bar {
     background-color: rgba(214, 214, 214, 0.3);
 }
 
@@ -1020,7 +1053,7 @@ section.project-info div.video-container.fullscreen div.video-bottom div.video-d
     background-color: rgba(214, 214, 214, 1);
 }
 
-section.project-info.dark-theme div.video-container div.video-bottom div.video-duration-bar div.video-progress-bar {
+section.dark-theme div.video-container div.video-bottom div.video-duration-bar div.video-progress-bar {
     background-color: rgba(214, 214, 214, 1);
 }
 
@@ -1050,19 +1083,19 @@ section.project-info div.video-bottom div.smallerControls.paused {
     background-image: url("icons/play-icon.svg");
 }
 
-section.project-info.dark-theme div.video-bottom div.smallerControls.playing {
-    background-image: url("icons/pause-icon-gray.svg");
-}
-
-section.project-info.dark-theme div.video-bottom div.smallerControls.paused {
-    background-image: url("icons/play-icon-gray.svg");
-}
-
 section.project-info div.video-container.fullscreen div.video-bottom div.smallerControls.playing {
     background-image: url("icons/pause-icon-gray.svg");
 }
 
+section.dark-theme div.video-container div.video-bottom div.smallerControls.playing {
+    background-image: url("icons/pause-icon-gray.svg");
+}
+
 section.project-info div.video-container.fullscreen div.video-bottom div.smallerControls.paused {
+    background-image: url("icons/play-icon-gray.svg");
+}
+
+section.dark-theme div.video-container div.video-bottom div.smallerControls.paused {
     background-image: url("icons/play-icon-gray.svg");
 }
 
