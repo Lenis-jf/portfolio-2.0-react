@@ -46,8 +46,11 @@ header {
     width: 95%;
     top: 2%;
     left: calc(50% - 47.5%);
+    background: rgba( 255, 255, 255, 0.15 );
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
     border-radius: 15px;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);
     z-index: 1000;
     display: flex;
     justify-content: left;
@@ -61,13 +64,13 @@ header.hidden {
     opacity: 0;
 }
 
-header.light-section {
+/* header.light-section {
     background-color: var(--light-color);
 }
 
 header.dark-section {
     background-color: var(--light2-color);
-}
+} */
 
 label.menu {
     --new-bars-width:  calc(var(--menu-height) * 1.4);
@@ -338,9 +341,19 @@ div.hr {
     width: 90%;
     height: 2.5px;
     background-color: var(--foreground-brown-color);
+    animation: hrIn 1s ease forwards running;
 }
 
-div.hr::before {
+@keyframes hrIn {
+    0% {
+        transform: translateX(calc(-100% - 90%));
+    }
+    100% {
+        transform: translateX(0px);
+    }
+}
+
+div.hr-arrow {
     display: inline-block;
     position: absolute;
     top: calc(50% - 175px);
@@ -350,10 +363,20 @@ div.hr::before {
     height: 350px;
     background-image: url("icons/arrow-deco.svg");
     background-size: cover;
-    background-position: center;    
+    background-position: center;
+    animation: hrArrowIn 1s ease forwards running;
 }
 
-div.hr.dark-theme::before {
+@keyframes hrArrowIn {
+    0% {
+        transform: translateY(calc(-100% - 350px));
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+section.dark-theme div.hr-arrow {
     background-image: url("icons/arrow-deco-light-color.svg");
 }
 
@@ -479,10 +502,12 @@ div.project-card div.small-info-card {
     color: var(--foreground-brown-color);
     background-color: var(--light-color);
     border-radius: 10px;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    box-shadow: 
+    2px 2px 4px rgba(190, 185, 160, 0.4),
+    -2px -2px 4px rgba(255, 253, 240, 0.3);
     transition: opacity 0,3s ease-in;
 
-    animation-duration: 1s;
+    animation-duration: 0.5s;
     animation-name: cardOut;
     animation-timing-function: ease-in;
     animation-delay: 0s;
@@ -490,6 +515,14 @@ div.project-card div.small-info-card {
     animation-direction: normal;
     animation-play-state: paused;
     animation-fill-mode: forwards;
+    perspective: 400px;
+    transform-style: preserve-3d;
+}
+
+section.dark-theme div.project-card div.small-info-card {
+    box-shadow: 
+      2px 2px 4px rgba(20, 20, 18, 0.4),
+      -2px -2px 4px rgba(70, 71, 65, 0.4);
 }
 
 @keyframes cardOut {
@@ -498,20 +531,11 @@ div.project-card div.small-info-card {
         opacity: 1;
     }
     50% {
-        transform: translate(0px, 25px) scale(1.1, 0.6);
+        transform: translate3d(0px, 25px, 200px) scale(1.1, 0.6);
         opacity: 0.4;
     }
-    60% {
-        opacity: 0.3;
-    }
-    70% {
-        opacity: 0.2;
-    }
-    80% {
-        opacity: 0.1;
-    }
     100% {
-        transform: translate(calc(100% + 220px), 25px) scale(1.1, 0.6);
+        transform: translate3d(calc(100% + 220px), 25px, 200px) scale(1.1, 0.6);
         opacity: 0;
     }
 }
@@ -550,8 +574,8 @@ div.project-card .face {
     backface-visibility: hidden;
     overflow: hidden;
     transform-style: preserve-3d;
-    transition: transform 0.5s ease-in-out;
-    transition-delay: var(--flip-delay, 1.5s);
+    transition: transform 0.35s ease-in-out;
+    transition-delay: var(--flip-delay, 0.25s);
 }
 
 div.project-card.flipped .face {
