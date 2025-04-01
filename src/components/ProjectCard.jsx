@@ -9,38 +9,44 @@ function ProjectCard(props) {
   useEffect(() => {
     const handleDocumentClick = (event) => {
       if (cardRef.current && !cardRef.current.contains(event.target)) {
+        // Disparar animación al desvoltear desde fuera
+        if (isFlipped && smallCardRef.current) {
+          const direction = "reverse";
+          smallCardRef.current.style.opacity = "0";
+          cardRef.current.style.setProperty("--flip-delay", "0s");
+
+          smallCardRef.current.style.animation = "none";
+          void smallCardRef.current.offsetWidth;
+          smallCardRef.current.style.animation = `cardOut 0.25s ease-in 0.25s 1 ${direction} forwards`;
+        }
         setIsFlipped(false);
       }
     };
 
     document.addEventListener("click", handleDocumentClick);
     return () => document.removeEventListener("click", handleDocumentClick);
-  }, []);
+  }, [isFlipped]); // Añadir dependencia isFlipped
 
   const handleCardClick = (event) => {
     if (event.target.closest("a.button.card-button")) {
       event.stopPropagation();
       return;
     }
-  
+
     const newIsFlipped = !isFlipped;
     setIsFlipped(newIsFlipped);
-  
+
     if (smallCardRef.current) {
       const direction = newIsFlipped ? "normal" : "reverse";
-      const animationDelay = newIsFlipped ? "0s" : "0.5s"; 
-      const flipTransitionDelay = newIsFlipped ? "1s" : "0s"; // 1s = nueva duración de cardOut
-  
-      // Resetear opacidad según dirección
+      const animationDelay = newIsFlipped ? "0s" : "0.25s";
+      const flipTransitionDelay = newIsFlipped ? "0.25s" : "0s";
+
       smallCardRef.current.style.opacity = direction === "reverse" ? "0" : "1";
-      
-      // Sincronizar delays
       cardRef.current.style.setProperty("--flip-delay", flipTransitionDelay);
-      
-      // Reiniciar animación
+
       smallCardRef.current.style.animation = "none";
       void smallCardRef.current.offsetWidth;
-      smallCardRef.current.style.animation = `cardOut 1s ease-in ${animationDelay} 1 ${direction} forwards`;
+      smallCardRef.current.style.animation = `cardOut 0.25s ease-in ${animationDelay} 1 ${direction} forwards`;
     }
   };
 

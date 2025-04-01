@@ -74,8 +74,8 @@ function Header() {
                             menuButtonsContainer.classList.add('brown-color');
                             menuButtonsContainer.classList.remove('light-color');
 
-                            header.classList.add('light-section');
-                            header.classList.remove('dark-section');
+                            // header.classList.add('light-section');
+                            // header.classList.remove('dark-section');
 
                             document.body.style.backgroundColor = "#F8F3D9"
                         } else if (entry.target.classList.contains('dark-section')) {
@@ -85,8 +85,8 @@ function Header() {
                             menuButtonsContainer.classList.add('light-color');
                             menuButtonsContainer.classList.remove('brown-color');
 
-                            header.classList.add('dark-section');
-                            header.classList.remove('light-section');
+                            // header.classList.add('dark-section');
+                            // header.classList.remove('light-section');
 
                             document.body.style.backgroundColor = "#3F4F44";
                         }
@@ -124,6 +124,7 @@ function Header() {
                 if (sectionChanger.classList.contains("section-changer-dark")) {
                     sectionChanger.classList.remove('section-changer-dark');
                     sectionChanger.classList.add('section-changer-light');
+                    sectionChanger.style.marginTop = "100px";
                 }
             });
         } else if (!isDarkMode) {

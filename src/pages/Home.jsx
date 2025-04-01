@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import ProjectCard from "../components/ProjectCard";
 import { Link } from "react-router-dom";
 
@@ -7,6 +7,7 @@ function Home() {
     <div>
       <section id="home" className="section light-section hidden">
         <div className="main-logo"></div>
+        <div className="hr-arrow"></div>
         <div className="hr"></div>
         <h1>Software Engineer<br />Web Developer<br />UI & UX Designer</h1>
         <div className="buttons-container">
