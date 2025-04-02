@@ -30,18 +30,25 @@ function CustomVideoPlayer(props) {
 
 	function toggleFullscreenMode() {
 		try {
+			const video = videoRef.current;
+	
 			if (getFullscreenElement()) {
 				document.exitFullscreen();
-				videoContainerRef.current?.scrollIntoView({ behavior: "instant", block: "center" });
+				video?.webkitExitFullscreen?.();
 			} else {
-				videoRef.current?.requestFullscreen();
-				videoRef.current?.webkitRequestFullscreen();
+				if (video.requestFullscreen) {
+					video.requestFullscreen();
+				} else if (video.webkitRequestFullscreen) { 
+					video.webkitRequestFullscreen(); 
+				} else if (video.webkitEnterFullscreen) { 
+					video.webkitEnterFullscreen(); // <-- SOLUCIÓN PARA iOS
+				}
 			}
 		} catch (error) {
-			console.error('Error activating Fullscreen mode:', error);
+			console.error("Error activating Fullscreen mode:", error);
 		}
-
 	}
+	
 
 	useEffect(() => {
 		const video = videoRef.current
