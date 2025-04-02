@@ -2,17 +2,18 @@ import React, { useState, useEffect, useRef } from "react";
 
 function CustomVideoPlayer(props) {
 
-	const videoContainerRef = useRef(null)
-	const videoRef = useRef(null)
-	const videoScreenControlsRef = useRef([])
-	const videoDurationCounterRef = useRef(null)
-	const videoPlayControlRef = useRef(null)
-	const videoPlayControlSmallRef = useRef(null)
+	const videoContainerRef = useRef(null);
+	const videoRef = useRef(null);
+	const videoScreenControlsRef = useRef([]);
+	const videoDurationCounterRef = useRef(null);
+	const videoPlayControlRef = useRef(null);
+	const videoPlayControlSmallRef = useRef(null);
+	const progressBarRef = useRef(null);
 
-	const [metadataLoaded, setMetadataLoaded] = useState(false)
+
+	const [metadataLoaded, setMetadataLoaded] = useState(false);
 	const [videoCurrentTime, updateVideoCurrentTime] = useState(0);
 	const [videoDuration, updateVideoDuration] = useState(0);
-	const [videoEnded, setVideoEnded] = useState(false);
 	const [screenMode, setScreenMode] = useState("small");
 
 	function formatTime(time) {
@@ -22,51 +23,25 @@ function CustomVideoPlayer(props) {
 		return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
 	}
 
-	function enterFullScreenHandler() {
+	function getFullscreenElement() {
+		return document.fullscreenElement || document.webkitIsFullscreen
+			|| document.mozFullscreenElement || document.msFullscreenElement;
+	}
+
+	function toggleFullscreenMode() {
 		try {
-			if (videoContainerRef.current.requestFullscreen) {
-				videoContainerRef.current.requestFullscreen();
-			} else if (videoContainerRef.current.webkitRequestFullscreen) {
-				videoContainerRef.current.webkitRequestFullscreen();
+			if (getFullscreenElement()) {
+				document.exitFullscreen();
+				videoContainerRef.current?.scrollIntoView({ behavior: "instant", block: "center" });
+			} else {
+				videoRef.current?.requestFullscreen();
+				videoRef.current?.webkitRequestFullscreen();
 			}
 		} catch (error) {
 			console.error('Error activating Fullscreen mode:', error);
 		}
 
 	}
-
-	function exitFullScreenHandler() {
-		try {
-			if (document.exitFullscreen) {
-				document.exitFullscreen();
-			} else if (document.webkitExitFullscreen) {
-				document.webkitExitFullscreen();
-			}
-		} catch (error) {
-			console.error('Error exiting Fullscreen mode:', error);
-		}
-
-
-	}
-
-	useEffect(() => {
-		const handleFullscreenChange = () => {
-			if (!document.fullscreenElement && !document.webkitIsFullscreen) {
-				videoContainerRef.current?.scrollIntoView({
-					behavior: "instant",
-					block: "center"
-				});
-			}
-		};
-	
-		document.addEventListener('fullscreenchange', handleFullscreenChange);
-		document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
-	
-		return () => {
-			document.removeEventListener('fullscreenchange', handleFullscreenChange);
-			document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
-		};
-	}, []);
 
 	useEffect(() => {
 		const video = videoRef.current
@@ -77,7 +52,6 @@ function CustomVideoPlayer(props) {
 		};
 
 		const handleEnded = () => {
-			setVideoEnded(true);
 			videoPlayControlRef.current?.classList.remove('playing');
 			videoPlayControlRef.current?.classList.add('paused');
 			videoPlayControlSmallRef.current?.classList.remove('playing')
@@ -131,55 +105,7 @@ function CustomVideoPlayer(props) {
 			const header = document.querySelector('header');
 
 			if (videoContainer && targetScreenControl && header)
-				if (targetScreenControl.classList.contains("maximize")) {
-					setScreenMode("fullscreen");
-
-					window.scrollTo({
-						top: 0,
-						behavior: "instant"
-					});
-
-					targetScreenControl.classList.remove("maximize");
-					targetScreenControl.classList.add("minimize");
-
-					header.classList.add('hidden');
-					document.documentElement.style.overflow = "hidden"
-
-					videoScreenControls.forEach(screenControl => {
-						screenControl.style.bottom = "25px";
-						screenControl.classList.add("show");
-
-						if (screenControl.classList.contains("minimize"))
-							screenControl.style.right = "10px"
-						else if (screenControl.classList.contains("max-width"))
-							screenControl.style.right = "40px"
-					});
-
-					enterFullScreenHandler();
-				} else if (targetScreenControl.classList.contains("minimize")) {
-					setScreenMode("small");
-
-					document.documentElement.style.overflow = "auto"
-
-					targetScreenControl.classList.remove("minimize");
-					header.classList.remove('hidden');
-
-					targetScreenControl.classList.add("maximize");
-					videoScreenControls.forEach(screenControl => {
-						screenControl.style.bottom = "10px";
-
-						if (!video.paused)
-							screenControl.classList.remove("show");
-
-						if (screenControl.classList.contains("maximize"))
-							screenControl.style.right = "8px"
-						else if (screenControl.classList.contains("max-width"))
-							screenControl.style.right = "35px"
-
-					});
-
-					exitFullScreenHandler();
-				} else if (targetScreenControl.classList.contains("max-width")) {
+				if (targetScreenControl.classList.contains("max-width")) {
 					setScreenMode("max-width")
 
 					targetScreenControl.classList.remove("max-width");
@@ -267,7 +193,6 @@ function CustomVideoPlayer(props) {
 					screenControl.classList.toggle('paused');
 				});
 			} else if (video.ended) {
-				setVideoEnded(false)
 				video.currentTime = 0;
 				video.play();
 			}
@@ -296,6 +221,43 @@ function CustomVideoPlayer(props) {
 
 	}, []);
 
+	useEffect(() => {
+		const video = videoRef.current;
+		const progressBar = progressBarRef.current;
+	
+		function seek(event) {
+			if (!video || !progressBar) return;
+	
+			const rect = progressBar.getBoundingClientRect();
+			const offsetX = event.type.includes("touch") ? event.touches[0].clientX - rect.left : event.clientX - rect.left;
+			const percentage = Math.max(0, Math.min(1, offsetX / rect.width));
+			video.currentTime = percentage * video.duration;
+		}
+	
+		function startSeek(event) {
+			seek(event);
+			document.addEventListener("mousemove", seek);
+			document.addEventListener("touchmove", seek);
+			document.addEventListener("mouseup", stopSeek);
+			document.addEventListener("touchend", stopSeek);
+		}
+	
+		function stopSeek() {
+			document.removeEventListener("mousemove", seek);
+			document.removeEventListener("touchmove", seek);
+			document.removeEventListener("mouseup", stopSeek);
+			document.removeEventListener("touchend", stopSeek);
+		}
+	
+		progressBar.addEventListener("mousedown", startSeek);
+		progressBar.addEventListener("touchstart", startSeek);
+	
+		return () => {
+			progressBar.removeEventListener("mousedown", startSeek);
+			progressBar.removeEventListener("touchstart", startSeek);
+		};
+	}, []);
+
 	return (
 		<div id="fullscreen" className={`video-container ${screenMode}`}
 			ref={videoContainerRef}>
@@ -306,13 +268,13 @@ function CustomVideoPlayer(props) {
 				webkit-playsinline="true"
 				className={`video-container ${screenMode}-video`}
 				src={`${process.env.PUBLIC_URL}/assets/videos/${props.video}`}
-				controls={false}
 				preload="metadata"
 				poster={`${process.env.PUBLIC_URL}/assets/imgs/${props.poster}`}
 			/>
 			<div
 				className="screen-controls maximize paused"
-				ref={el => (videoScreenControlsRef.current[0] = el)}>
+				ref={el => (videoScreenControlsRef.current[0] = el)}
+				onClick={toggleFullscreenMode}>
 			</div>
 			<div
 				className="screen-controls max-width paused"
@@ -323,7 +285,7 @@ function CustomVideoPlayer(props) {
 					className="smallerControls paused"
 					ref={videoPlayControlSmallRef}>
 				</div>
-				<div className="video-duration-bar">
+				<div className="video-duration-bar" ref={progressBarRef}>
 					<div className="video-progress-bar" style={{ width: `${progressBarWidth}%` }}></div>
 				</div>
 				<div className="time">{formatTime(videoCurrentTime)}/{formatTime(videoDuration)}</div>

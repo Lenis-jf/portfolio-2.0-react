@@ -41,13 +41,16 @@ body a {
 
 /*HEADER---------------------------------------------------------------------------------------*/ 
 
+/* #697565 */
+/* #40534C */
+
 header {
     position: fixed;
     width: 95%;
     top: 2%;
     left: calc(50% - 47.5%);
     background: rgba( 255, 255, 255, 0.15 );
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.25);
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
     border-radius: 15px;
@@ -63,14 +66,6 @@ header {
 header.hidden {
     opacity: 0;
 }
-
-/* header.light-section {
-    background-color: var(--light-color);
-}
-
-header.dark-section {
-    background-color: var(--light2-color);
-} */
 
 label.menu {
     --new-bars-width:  calc(var(--menu-height) * 1.4);
@@ -499,12 +494,12 @@ div.project-card div.small-info-card {
     width: 200px;
     height: 80px;
     flex-direction: column;
-    color: var(--foreground-brown-color);
-    background-color: var(--light-color);
+    color: var(--light-color);
+    background-color: #33594b;
     border-radius: 10px;
     box-shadow: 
-    2px 2px 4px rgba(190, 185, 160, 0.4),
-    -2px -2px 4px rgba(255, 253, 240, 0.3);
+    2px 2px 4px rgba(10, 15, 30, 0.5),  /* Sombra oscura */
+    -2px -2px 4px rgba(80, 100, 150, 0.2); /* Sombra clara */
     transition: opacity 0,3s ease-in;
 
     animation-duration: 0.5s;
@@ -519,10 +514,15 @@ div.project-card div.small-info-card {
     transform-style: preserve-3d;
 }
 
+/* #33594b: verde mas vivo */
+/* #326557: verde mas azulado */
+
 section.dark-theme div.project-card div.small-info-card {
+    background-color: #40534C;
+    color: var(--foreground-brown-color);
     box-shadow: 
-      2px 2px 4px rgba(20, 20, 18, 0.4),
-      -2px -2px 4px rgba(70, 71, 65, 0.4);
+    2px 2px 4px rgba(25, 35, 30, 0.5), /* Sombra oscura */
+    -2px -2px 4px rgba(90, 120, 100, 0.3); /* Sombra clara */
 }
 
 @keyframes cardOut {
@@ -626,6 +626,7 @@ section#abilities {
     background-color: var(--light-color);
     color: var(--foreground-brown-color);
     text-align: center;
+    padding-top: 80px;
 }
 
 section#abilities span {
@@ -929,21 +930,6 @@ section.project-info div.video-container.small {
     transition: width 300ms ease-in-out, height 300ms ease-in-out, box-shadow 1.5s ease-in-out;
 }
 
-section.project-info div.video-container.fullscreen {
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 100vw;
-    height: 100dvh;
-    background-color: #161616;
-    z-index: 999;
-    box-shadow: none;
-    border-radius: 0;
-}
-
 section.project-info div.video-container.max-width {
     width: 100%;
     height: 100%;
@@ -957,11 +943,6 @@ section.project-info video {
     border-radius: 10px;
     object-fit: cover;   
     transition: width 300ms ease-out, height 300ms ease-out;
-}
-
-section.project-info video.fullscreen-video {
-    height: auto;
-    border-radius: 0px;
 }
 
 section.project-info div.video-container div.controls {
@@ -1017,10 +998,6 @@ section.project-info div.video-container.max-width div.screen-controls {
     bottom: 35px;
 }
 
-section.project-info div.video-container.fullscreen div.screen-controls {
-    bottom: 40px;
-}
-
 section.project-info div.video-container div.screen-controls.playing {
     opacity: 0;
 }
@@ -1031,11 +1008,6 @@ section.project-info div.video-container div.screen-controls.show {
 
 section.project-info div.video-container div.screen-controls.maximize {
     background-image: url("icons/maximize-icon.svg");
-    right: 8px;
-}
-
-section.project-info div.video-container div.screen-controls.minimize {
-    background-image: url("icons/minimize-icon.svg");
     right: 8px;
 }
 
@@ -1059,14 +1031,6 @@ section.project-info div.video-bottom {
     margin-top: 5px;
 }
 
-section.project-info div.video-container.fullscreen div.video-bottom {
-    width: 100%;
-    max-width: none;
-    position: absolute;
-    bottom: 25px;
-    right: 30px;
-}
-
 section.project-info div.video-bottom div.video-duration-bar {
     position: relative;
     width: 65%;
@@ -1075,16 +1039,8 @@ section.project-info div.video-bottom div.video-duration-bar {
     background-color: rgba(0, 0, 0, 0.25);
 }
 
-section.project-info div.video-container.fullscreen div.video-bottom div.video-duration-bar {
-    background-color: rgba(214, 214, 214, 0.3);
-}
-
 section.dark-theme div.video-container div.video-bottom div.video-duration-bar {
     background-color: rgba(214, 214, 214, 0.3);
-}
-
-section.project-info div.video-container.fullscreen div.video-bottom div.video-duration-bar div.video-progress-bar {
-    background-color: rgba(214, 214, 214, 1);
 }
 
 section.dark-theme div.video-container div.video-bottom div.video-duration-bar div.video-progress-bar {
@@ -1117,16 +1073,8 @@ section.project-info div.video-bottom div.smallerControls.paused {
     background-image: url("icons/play-icon.svg");
 }
 
-section.project-info div.video-container.fullscreen div.video-bottom div.smallerControls.playing {
-    background-image: url("icons/pause-icon-gray.svg");
-}
-
 section.dark-theme div.video-container div.video-bottom div.smallerControls.playing {
     background-image: url("icons/pause-icon-gray.svg");
-}
-
-section.project-info div.video-container.fullscreen div.video-bottom div.smallerControls.paused {
-    background-image: url("icons/play-icon-gray.svg");
 }
 
 section.dark-theme div.video-container div.video-bottom div.smallerControls.paused {
@@ -1138,18 +1086,8 @@ section.project-info div.video-bottom div.time {
     font-size: 10px;
 }
 
-section.project-info div.video-container.fullscreen div.video-bottom div.time {
-    color: rgba(214, 214, 214);
-}
-
 @media screen and (min-width: 400px) {
     button.arrow {
         display: inline-block;
-    }
-}
-
-@media (orientation: landscape) {
-    section.project-info video.fullscreen-video {
-        height: 95%;
     }
 }
