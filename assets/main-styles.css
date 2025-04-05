@@ -1,5 +1,24 @@
-*, *::after, *::before {
-  box-sizing: border-box;
+*,
+*::after,
+*::before {
+    box-sizing: border-box;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
 }
 
 html {
@@ -9,37 +28,43 @@ html {
 }
 
 body {
-  font-family: "Ubuntu Sans", sans-serif;
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
+    font-family: "Ubuntu Sans", sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+body.no-vertical-scroll {
+    overflow-y: hidden;
+    overscroll-behavior-y: contain;
 }
 
 body a {
-    -webkit-tap-highlight-color: transparent; /* Para quitar el sombreado en celulares */
+    -webkit-tap-highlight-color: transparent;
+    /* Para quitar el sombreado en celulares */
     text-decoration: none;
 }
 
 :root {
-  --light-color: #F8F3D9;
-  --light2-color: #3F4F44;
-  --dark-color: #6B5B95;
-  --dark2-color: #355C7D;
-  --foreground-brown-color: #504B38;
-  --bars-gap: 5px;
-  --bar-width: 30px;
-  --bar-height: 4px;
-  --transition-timing: 200ms ease-in-out;
-  --menu-height: calc(var(--bar-height) * 3 + var(--bars-gap) * 2);
+    /* --light-color: #F8F3D9; */
+    --light-color: #FEFAE0;
+    /* --light2-color: #3F4F44; */
+    --light2-color: #344e41;
+--foreground-color: #504B38;
+    --bars-gap: 5px;
+    --bar-width: 30px;
+    --bar-height: 4px;
+    --transition-timing: 200ms ease-in-out;
+    --menu-height: calc(var(--bar-height) * 3 + var(--bars-gap) * 2);
 }
 
 :root.dark-theme {
     --light-color: #3C3D37;
     --light2-color: #1E201E;
-    --foreground-brown-color: #ECDFCC;
-  }
+    --foreground-color: #ECDFCC;
+}
 
-/*HEADER---------------------------------------------------------------------------------------*/ 
+/*HEADER---------------------------------------------------------------------------------------*/
 
 /* #697565 */
 /* #40534C */
@@ -49,7 +74,7 @@ header {
     width: 95%;
     top: 2%;
     left: calc(50% - 47.5%);
-    background: rgba( 255, 255, 255, 0.15 );
+    background: rgba(255, 255, 255, 0.15);
     box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.25);
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
@@ -68,7 +93,7 @@ header.hidden {
 }
 
 label.menu {
-    --new-bars-width:  calc(var(--menu-height) * 1.4);
+    --new-bars-width: calc(var(--menu-height) * 1.4);
 
     position: relative;
     display: flex;
@@ -78,12 +103,14 @@ label.menu {
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    outline: none;  
-    user-select: none;
-    -webkit-tap-highlight-color: transparent; /* Para quitar el sombreado en celulares */
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    /* Para quitar el sombreado en celulares */
 }
 
-label.menu::before, label.menu::after, label.menu input {
+label.menu::before,
+label.menu::after,
+label.menu input {
     content: "";
     width: var(--bar-width);
     height: var(--bar-height);
@@ -92,16 +119,22 @@ label.menu::before, label.menu::after, label.menu input {
     transition: opacity var(--transition-timing), width var(--transition-timing), transform var(--transition-timing), background-color var(--transition-timing);
 }
 
-label.menu.brown-color::before, label.menu.brown-color::after, label.menu.brown-color input {
-    background-color: var(--foreground-brown-color);
+label.menu.brown-color::before,
+label.menu.brown-color::after,
+label.menu.brown-color input {
+    background-color: var(--foreground-color);
 }
 
-label.menu.light-color::before, label.menu.light-color::after, label.menu.light-color input {
+label.menu.light-color::before,
+label.menu.light-color::after,
+label.menu.light-color input {
     background-color: var(--light-color);
 }
 
-header.dark-theme label.menu.light-color::before, header.dark-theme label.menu.light-color::after, header.dark-theme label.menu.light-color input {
-    background-color: var(--foreground-brown-color);
+header.dark-theme label.menu.light-color::before,
+header.dark-theme label.menu.light-color::after,
+header.dark-theme label.menu.light-color input {
+    background-color: var(--foreground-color);
 }
 
 label.menu input {
@@ -114,7 +147,7 @@ label.menu input {
 
 label.menu input:checked {
     opacity: 0;
-    width: 0;    
+    width: 0;
 }
 
 label.menu:has(input:checked)::before {
@@ -135,7 +168,7 @@ header div.menu-buttons-container {
     justify-content: center;
     align-items: center;
     opacity: 0;
-    color: var(--foreground-brown-color);
+    color: var(--foreground-color);
     transition: opacity var(--transition-timing), color var(--transition-timing), border-color var(--transition-timing);
 }
 
@@ -150,21 +183,23 @@ header div.menu-buttons-container a.menu-button {
     pointer-events: none;
 }
 
-header div.menu-buttons-container.brown-color a.menu-button, header.dark-theme div.menu-buttons-container.dark-theme a.menu-button.dark-theme {
-    color: var(--foreground-brown-color);
-    border: solid 1px var(--foreground-brown-color);
+header div.menu-buttons-container.brown-color a.menu-button,
+header.dark-theme div.menu-buttons-container.dark-theme a.menu-button.dark-theme {
+    color: var(--foreground-color);
+    border: solid 1px var(--foreground-color);
 }
 
-header div.menu-buttons-container.light-color a.menu-button, header.dark-theme div.menu-buttons-container.dark-theme a.menu-button.dark-theme {
+header div.menu-buttons-container.light-color a.menu-button,
+header.dark-theme div.menu-buttons-container.dark-theme a.menu-button.dark-theme {
     color: var(--light-color);
     border: solid 1px var(--light-color);
 }
 
-label.menu:has(input:checked) ~ div.menu-buttons-container {
+label.menu:has(input:checked)~div.menu-buttons-container {
     opacity: 1;
 }
 
-label.menu:has(input:checked) ~ div.menu-buttons-container a{
+label.menu:has(input:checked)~div.menu-buttons-container a {
     pointer-events: all;
 }
 
@@ -178,13 +213,13 @@ label.darkmode-button-container {
     border-radius: 25px;
     padding: 5px 0px 5px 0px;
     transition: background-color var(--transition-timing);
-    outline: none;  
-    user-select: none;
-    -webkit-tap-highlight-color: transparent; /* Para quitar el sombreado azul en celulares */
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    /* Para quitar el sombreado azul en celulares */
 }
 
 label.darkmode-button-container.brown-color {
-    background-color: var(--foreground-brown-color);
+    background-color: var(--foreground-color);
 }
 
 header.dark-theme label.darkmode-button-container.brown-color {
@@ -196,14 +231,14 @@ label.darkmode-button-container.light-color {
 }
 
 header.dark-theme label.darkmode-button-container.light-color {
-    background-color: var(--foreground-brown-color);
+    background-color: var(--foreground-color);
 }
 
 label.darkmode-button-container.brown-color input {
     position: absolute;
     left: -1px;
     top: calc(50% - 10.5px);
-    appearance: none;   
+    appearance: none;
     width: 15px;
     height: 15px;
     border-radius: 50%;
@@ -220,7 +255,7 @@ label.darkmode-button-container.brown-color input {
 }
 
 label.darkmode-button-container.light-color input {
-    background-color: var(--foreground-brown-color);
+    background-color: var(--foreground-color);
 }
 
 label.darkmode-button-container::after {
@@ -228,9 +263,10 @@ label.darkmode-button-container::after {
     width: 13px;
     height: 13px;
     position: absolute;
-    background-image: url("icons/dark-mode.svg");
+    background-image: url("icons/theme-mode-icon.svg");
     background-size: cover;
     background-position: center;
+    transform: rotate(180deg);
     z-index: 1;
     right: 2px;
     top: calc(50% - 6.5px);
@@ -241,7 +277,7 @@ label.darkmode-button-container::before {
     width: 13px;
     height: 13px;
     position: absolute;
-    background-image: url("icons/light-mode.svg");
+    background-image: url("icons/theme-mode-icon.svg");
     background-size: cover;
     background-position: center;
     z-index: 1;
@@ -251,13 +287,13 @@ label.darkmode-button-container::before {
 
 label.darkmode-button-container:has(input:checked) {
     background-color: var(--light-color);
-    border: solid 1px var(--foreground-brown-color);
+    border: solid 1px var(--foreground-color);
     /* pediente!!! Cambiar colores a los del darkmode */
 }
 
 label.darkmode-button-container:has(input:checked) input {
     transform: translateX(calc(100% + 3.5px));
-    background-color: var(--foreground-brown-color);
+    background-color: var(--foreground-color);
 }
 
 div.logo-container {
@@ -272,12 +308,12 @@ div.logo-container {
 }
 
 div.logo-container.hidden {
-    opacity: 0;    
+    opacity: 0;
 }
 
 @media screen and (min-width: 360px) {
     header {
-        justify-content: space-between;        
+        justify-content: space-between;
     }
 
     div.logo-container {
@@ -285,7 +321,7 @@ div.logo-container.hidden {
     }
 }
 
-/*MAIN-TEXT_HOME-------------------------------------------------------------------------------*/ 
+/*MAIN-TEXT_HOME-------------------------------------------------------------------------------*/
 
 section {
     display: flex;
@@ -296,19 +332,28 @@ section {
     text-align: center;
     padding: 40px 20px 80px 20px;
     scroll-snap-align: start;
-    color: var(--foreground-brown-color);
+    color: var(--foreground-color);
     transition: background-color 500ms ease-in-out
 }
 
-section h1, section h2, section p, section div {
+section h1,
+section h2,
+section p,
+section div {
     transition: opacity 350ms ease-in-out
 }
 
-section.hidden h1, section.hidden h2, section.hidden p, section.hidden div {
+section.hidden h1,
+section.hidden h2,
+section.hidden p,
+section.hidden div {
     opacity: 0;
 }
 
-section.visible h1, section.visible h2, section.visible p, section.visible div {
+section.visible h1,
+section.visible h2,
+section.visible p,
+section.visible div {
     opacity: 1;
 }
 
@@ -316,26 +361,26 @@ section#home {
     justify-content: center;
     background-color: var(--light-color);
     height: 100vh;
-    color: var(--foreground-brown-color);
+    color: var(--foreground-color);
 }
 
 section#home.dark-theme span {
-    color: var(--foreground-brown-color);
+    color: var(--foreground-color);
 }
 
-div.main-logo{
+div.main-logo {
     display: inline-block;
     width: 185px;
     height: 185px;
     background-image: url("icons/logo-small.svg");
     background-size: cover;
-    background-position: center;   
+    background-position: center;
 }
 
 div.hr {
     width: 90%;
     height: 2.5px;
-    background-color: var(--foreground-brown-color);
+    background-color: var(--foreground-color);
     animation: hrIn 1s ease forwards running;
 }
 
@@ -343,6 +388,7 @@ div.hr {
     0% {
         transform: translateX(calc(-100% - 90%));
     }
+
     100% {
         transform: translateX(0px);
     }
@@ -366,6 +412,7 @@ div.hr-arrow {
     0% {
         transform: translateY(calc(-100% - 350px));
     }
+
     100% {
         transform: translateY(0px);
     }
@@ -384,49 +431,48 @@ div.buttons-container {
     display: flex;
     flex-direction: column;
     gap: 5px;
-    width: max-content;    
+    width: max-content;
 }
 
 a.button {
     display: flex;
     width: 90px;
     height: 30px;
-    color: var(--foreground-brown-color);
+    color: var(--foreground-color);
     justify-content: center;
     align-items: center;
     background-color: transparent;
-    border: solid 1.5px var(--foreground-brown-color);
+    border: solid 1.5px var(--foreground-color);
     border-radius: 5px;
     cursor: pointer;
     outline: none;
-    user-select: none;
 }
 
 div.section-changer {
-   display: flex;
-   flex-direction: column;
-   text-align: center;
-   align-items: center;
-   gap: 15px;
-   color: var(--light-color);
-   cursor: pointer;
-   margin-top: 50px;
-   -webkit-tap-highlight-color: transparent;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    gap: 15px;
+    color: var(--light-color);
+    cursor: pointer;
+    margin-top: 50px;
+    -webkit-tap-highlight-color: transparent;
 }
 
 div.section-changer-dark {
-    color: var(--foreground-brown-color);
-    margin-top: 100px; 
+    color: var(--foreground-color);
+    margin-top: 100px;
 }
 
-div.section-changer div{
+div.section-changer div {
     width: 31px;
     height: 17px;
     background-size: cover;
     background-position: bottom;
 }
 
-div.section-changer.home div{
+div.section-changer.home div {
     transform: rotate(180deg);
 }
 
@@ -454,9 +500,10 @@ section#projects {
     padding: 90px 20px 100px 20px;
 }
 
-section#projects.dark-theme p, section#projects.dark-theme span {
-    color: var(--foreground-brown-color);
-} 
+section#projects.dark-theme p,
+section#projects.dark-theme span {
+    color: var(--foreground-color);
+}
 
 section#projects p:nth-child(2) {
     margin: 30px 0px 40px 0px;
@@ -495,12 +542,14 @@ div.project-card div.small-info-card {
     height: 80px;
     flex-direction: column;
     color: var(--light-color);
-    background-color: #33594b;
+    background-color: #3a5a40;
     border-radius: 10px;
-    box-shadow: 
-    2px 2px 4px rgba(10, 15, 30, 0.5),  /* Sombra oscura */
-    -2px -2px 4px rgba(80, 100, 150, 0.2); /* Sombra clara */
-    transition: opacity 0,3s ease-in;
+    box-shadow:
+        2px 2px 4px rgba(10, 15, 30, 0.5),
+        /* Sombra oscura */
+        -2px -2px 4px rgba(80, 100, 150, 0.2);
+    /* Sombra clara */
+    transition: opacity 0, 3s ease-in;
 
     animation-duration: 0.5s;
     animation-name: cardOut;
@@ -518,11 +567,13 @@ div.project-card div.small-info-card {
 /* #326557: verde mas azulado */
 
 section.dark-theme div.project-card div.small-info-card {
-    background-color: #40534C;
-    color: var(--foreground-brown-color);
-    box-shadow: 
-    2px 2px 4px rgba(25, 35, 30, 0.5), /* Sombra oscura */
-    -2px -2px 4px rgba(90, 120, 100, 0.3); /* Sombra clara */
+    background-color: #3f493f;
+    color: var(--foreground-color);
+    box-shadow:
+        2px 2px 4px rgba(25, 35, 30, 0.5),
+        /* Sombra oscura */
+        -2px -2px 4px rgba(90, 120, 100, 0.3);
+    /* Sombra clara */
 }
 
 @keyframes cardOut {
@@ -530,17 +581,21 @@ section.dark-theme div.project-card div.small-info-card {
         transform: translate(0px, 0px) scale(1, 1);
         opacity: 1;
     }
+
     50% {
         transform: translate3d(0px, 25px, 200px) scale(1.1, 0.6);
         opacity: 0.4;
     }
+
     100% {
         transform: translate3d(calc(100% + 220px), 25px, 200px) scale(1.1, 0.6);
         opacity: 0;
     }
 }
 
-div.small-info-card h4, div.small-info-card h6, section#projects div.small-info-card p {
+div.small-info-card h4,
+div.small-info-card h6,
+section#projects div.small-info-card p {
     margin: 0;
     padding: 0;
     width: 100%;
@@ -566,7 +621,7 @@ section#projects div.small-info-card p {
 }
 
 div.project-card .face {
-    position: absolute; 
+    position: absolute;
     width: 100%;
     height: 100%;
     border-radius: 10px;
@@ -609,14 +664,14 @@ div.project-card .back .card-button {
 }
 
 div.project-card .back .card-button:first-of-type {
-    margin-bottom: 5px;    
+    margin-bottom: 5px;
 }
 
-div.project-card.flipped .front{
+div.project-card.flipped .front {
     transform: perspective(800px) rotateY(180deg);
 }
 
-div.project-card.flipped .back{
+div.project-card.flipped .back {
     transform: perspective(800px) rotateY(360deg);
 }
 
@@ -624,13 +679,13 @@ div.project-card.flipped .back{
 
 section#abilities {
     background-color: var(--light-color);
-    color: var(--foreground-brown-color);
+    color: var(--foreground-color);
     text-align: center;
     padding-top: 80px;
 }
 
 section#abilities span {
-    color: var(--foreground-brown-color)
+    color: var(--foreground-color)
 }
 
 section#abilities p {
@@ -649,7 +704,8 @@ div.icons-container {
     margin: 30px 0px;
 }
 
-div.icon, a.icon {
+div.icon,
+a.icon {
     width: 32px;
     height: 32px;
     background-size: cover;
@@ -709,9 +765,10 @@ section#last-part {
     color: var(--light-color);
 }
 
-section#last-part.dark-theme p, section#last-part.dark-theme span{
-    color: var(--foreground-brown-color);
-} 
+section#last-part.dark-theme p,
+section#last-part.dark-theme span {
+    color: var(--foreground-color);
+}
 
 section#last-part a.button {
     color: var(--light-color);
@@ -720,8 +777,8 @@ section#last-part a.button {
 }
 
 section#last-part.dark-theme a.button {
-    color: var(--foreground-brown-color);
-    border: solid 1.5px var(--foreground-brown-color);
+    color: var(--foreground-color);
+    border: solid 1.5px var(--foreground-color);
 }
 
 section#last-part a.section-changer div {
@@ -738,8 +795,9 @@ section#contact {
     max-height: 100vh;
 }
 
-section#contact.dark-theme p, section#contact.dark-theme span {
-    color: var(--foreground-brown-color);
+section#contact.dark-theme p,
+section#contact.dark-theme span {
+    color: var(--foreground-color);
 }
 
 section#contact div.icons-container {
@@ -787,12 +845,12 @@ section.project-info#svq {
 
 section.project-info h2 {
     margin-top: 60px;
-    color: var(--foreground-brown-color);
+    color: var(--foreground-color);
 }
 
 section.project-info span.copy-right {
     text-align: center;
-    color: var(--foreground-brown-color);
+    color: var(--foreground-color);
 }
 
 section.project-info p {
@@ -812,7 +870,8 @@ section.project-info a.button:nth-of-type(2) {
 
 div.img-presentator-container {
     position: relative;
-    display: flex;;
+    display: flex;
+    ;
     width: 100%;
     max-width: 430px;
     justify-content: space-between;
@@ -867,14 +926,18 @@ div.images-wrapper {
     overflow-x: scroll;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch; /* Mejor scroll en iOS */
+    -webkit-overflow-scrolling: touch;
+    /* Mejor scroll en iOS */
     margin: 0px auto;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE y Edge */
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE y Edge */
 }
 
 div.images-wrapper::-webkit-scrollbar {
-    display: none; /* Chrome, Safari y Edge */
+    display: none;
+    /* Chrome, Safari y Edge */
 }
 
 div.images-wrapper img.img {
@@ -899,7 +962,7 @@ button.radio-button {
     min-width: 10px;
     min-height: 10px;
     border-radius: 50%;
-    background: var(--foreground-brown-color);
+    background: var(--foreground-color);
     cursor: pointer;
     opacity: 0.3;
     flex-shrink: 0;
@@ -912,7 +975,7 @@ button.radio-button.active {
     opacity: 1;
 }
 
-button.arrow.unenabled {
+button.arrow.disabled {
     opacity: 0.3;
 }
 
@@ -922,7 +985,7 @@ section.project-info div.video-container {
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     z-index: 1;
     transition: width 300ms ease-out, height 300ms ease-out;
-}    
+}
 
 section.project-info div.video-container.small {
     width: 280px;
@@ -935,13 +998,13 @@ section.project-info div.video-container.max-width {
     height: 100%;
     box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
     transition: width 300ms ease-out, height 300ms ease-out, box-shadow 0s;
-} 
+}
 
 section.project-info video {
     width: 100%;
     height: 100%;
     border-radius: 10px;
-    object-fit: cover;   
+    object-fit: cover;
     transition: width 300ms ease-out, height 300ms ease-out;
 }
 
@@ -965,11 +1028,6 @@ section.project-info div.video-container div.controls.playing {
     opacity: 0;
 }
 
-/* section.project-info div.video-container:hover div.controls.playing {
-    background-image: url("icons/pause-circle-icon.svg");
-    opacity: 0.5;
-} */
-
 section.project-info div.video-container div.controls.paused {
     background-image: url("icons/play-circle-icon.svg");
     opacity: 0.5;
@@ -979,45 +1037,60 @@ section.project-info div.video-container div.controls.show {
     opacity: 0.5;
 }
 
-/* section.project-info div.video-container div.controls.hidden {
-    opacity: 0;
-} */
-
-section.project-info div.video-container div.screen-controls {
+section.project-info div.video-container div.screen-control-container {
     position: absolute;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
     bottom: 10px;
-    width: 16px;
-    height: 16px;
-    background-size: cover;
+    width: 32px;
+    height: 32px;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
     transition: opacity 350ms ease-out;
 }
 
-section.project-info div.video-container.max-width div.screen-controls {
+section.project-info div.video-container div.screen-control-container div.screen-control {
+    background-size: cover;
+    width: 18px;
+    height: 18px;
+}
+
+section.project-info div.video-container.max-width div.screen-control-container {
     bottom: 35px;
 }
 
-section.project-info div.video-container div.screen-controls.playing {
+section.project-info div.video-container div.screen-control-container.playing {
     opacity: 0;
+    pointer-events: none;
 }
 
-section.project-info div.video-container div.screen-controls.show {
+section.project-info div.video-container div.screen-control-container.show {
     opacity: 1;
+    pointer-events: all;
 }
 
-section.project-info div.video-container div.screen-controls.maximize {
+section.project-info div.video-container div.screen-control-container.maximize div.screen-control {
     background-image: url("icons/maximize-icon.svg");
+}
+
+section.project-info div.video-container div.screen-control-container.maximize {
     right: 8px;
 }
 
-section.project-info div.video-container div.screen-controls.max-width {
+section.project-info div.video-container div.screen-control-container.max-width div.screen-control {
     background-image: url("icons/max-width-icon.svg");
+}
+
+section.project-info div.video-container div.screen-control-container.max-width {
     right: 35px;
 }
 
-section.project-info div.video-container div.screen-controls.min-width {
+section.project-info div.video-container div.screen-control-container.min-width div.screen-control {
     background-image: url("icons/less-width.svg");
+}
+
+section.project-info div.video-container div.screen-control-container.min-width {
     right: 35px;
 }
 
@@ -1053,7 +1126,7 @@ section.dark-theme div.video-container div.video-bottom div.video-duration-bar d
     background-color: #000;
     border-radius: 5px;
     transition: width 0.2s linear;
-  }
+}
 
 section.project-info div.video-bottom div.smallerControls {
     content: "";
