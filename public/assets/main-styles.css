@@ -34,6 +34,11 @@ body {
     overflow-x: hidden;
 }
 
+body.no-vertical-scroll {
+    overflow-y: hidden;
+    overscroll-behavior-y: contain;
+}
+
 body a {
     -webkit-tap-highlight-color: transparent;
     /* Para quitar el sombreado en celulares */

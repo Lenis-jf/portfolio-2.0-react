@@ -245,7 +245,10 @@ function CustomVideoPlayer(props) {
 		}
 	
 		function startSeek(event) {
+			document.body.classList.add("no-vertical-scroll");
+
 			seek(event);
+
 			document.addEventListener("mousemove", seek);
 			document.addEventListener("touchmove", seek);
 			document.addEventListener("mouseup", stopSeek);
@@ -253,6 +256,8 @@ function CustomVideoPlayer(props) {
 		}
 	
 		function stopSeek() {
+			document.body.classList.remove("no-vertical-scroll");
+
 			document.removeEventListener("mousemove", seek);
 			document.removeEventListener("touchmove", seek);
 			document.removeEventListener("mouseup", stopSeek);
