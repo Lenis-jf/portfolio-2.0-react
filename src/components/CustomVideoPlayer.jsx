@@ -4,7 +4,9 @@ function CustomVideoPlayer(props) {
 
 	const videoContainerRef = useRef(null);
 	const videoRef = useRef(null);
-	const videoScreenControlsRef = useRef([]);
+	const videoScreenControlContainersRef = useRef([]);
+	const fullscreenIconRef = useRef(null);
+	const videoWidthIconRef = useRef(null);
 	const videoDurationCounterRef = useRef(null);
 	const videoPlayControlRef = useRef(null);
 	const videoPlayControlSmallRef = useRef(null);
@@ -41,7 +43,7 @@ function CustomVideoPlayer(props) {
 				} else if (video.webkitRequestFullscreen) { 
 					video.webkitRequestFullscreen(); 
 				} else if (video.webkitEnterFullscreen) { 
-					video.webkitEnterFullscreen(); // <-- SOLUCIÓN PARA iOS
+					video.webkitEnterFullscreen();
 				}
 			}
 		} catch (error) {
@@ -52,6 +54,7 @@ function CustomVideoPlayer(props) {
 
 	useEffect(() => {
 		const video = videoRef.current
+		const videoScreenControlContainers = videoScreenControlContainersRef.current.filter(Boolean);
 
 		const handleMetadata = () => {
 			updateVideoDuration(video.duration);
@@ -63,11 +66,10 @@ function CustomVideoPlayer(props) {
 			videoPlayControlRef.current?.classList.add('paused');
 			videoPlayControlSmallRef.current?.classList.remove('playing')
 			videoPlayControlSmallRef.current?.classList.add('paused')
-			videoScreenControlsRef.current.forEach(control => {
-				control?.classList.remove('playing');
-				control?.classList.add('paused');
+			videoScreenControlContainers.forEach(screenControlContainer => {
+				screenControlContainer.classList.remove('playing');
+				screenControlContainer.classList.add('paused');
 			});
-
 		};
 
 		if (video) {
@@ -84,7 +86,7 @@ function CustomVideoPlayer(props) {
 	useEffect(() => {
 		const videoContainer = videoContainerRef.current
 		const video = videoRef.current
-		const videoScreenControls = videoScreenControlsRef.current.filter(Boolean);
+		const videoScreenControlContainers = videoScreenControlContainersRef.current.filter(Boolean);
 		const durationCounter = videoDurationCounterRef.current;
 
 		if (video) {
@@ -108,10 +110,10 @@ function CustomVideoPlayer(props) {
 		}
 
 		function handleScreenMode(event) {
-			const targetScreenControl = event.target.closest('.screen-controls');
+			const targetScreenControl = event.currentTarget;
 			const header = document.querySelector('header');
 
-			if (videoContainer && targetScreenControl && header)
+			if (videoContainer && targetScreenControl && header) {
 				if (targetScreenControl.classList.contains("max-width")) {
 					setScreenMode("max-width")
 
@@ -123,9 +125,10 @@ function CustomVideoPlayer(props) {
 					targetScreenControl.classList.remove("min-width");
 					targetScreenControl.classList.add("max-width");
 				}
+			}
 		}
 
-		videoScreenControls.forEach(screenControl => {
+		videoScreenControlContainers.forEach(screenControl => {
 			screenControl.addEventListener('click', handleScreenMode);
 		});
 
@@ -133,9 +136,9 @@ function CustomVideoPlayer(props) {
 			if (video) {
 				video.removeEventListener('timeupdate', updateTime);
 			}
-			if (videoScreenControls)
-				videoScreenControls.forEach(screenControl => {
-					screenControl.removeEventListener('click', handleScreenMode);
+			if (videoScreenControlContainers)
+				videoScreenControlContainers.forEach(screenControlContainer => {
+					screenControlContainer.removeEventListener('click', handleScreenMode);
 				});
 		}
 	}, [videoCurrentTime, videoDuration, metadataLoaded, screenMode]);
@@ -146,7 +149,7 @@ function CustomVideoPlayer(props) {
 
 		const videoPlayControl = videoPlayControlRef.current;
 		const videoPlayControlSmall = videoPlayControlSmallRef.current;
-		const videoScreenControls = videoScreenControlsRef.current.filter(Boolean);
+		const videoScreenControlContainers = videoScreenControlContainersRef.current.filter(Boolean);
 		const video = videoRef.current;
 
 		if (video) {
@@ -158,7 +161,7 @@ function CustomVideoPlayer(props) {
 		function showControls() {
 			videoPlayControl.classList.add('show');
 
-			videoScreenControls.forEach(
+			videoScreenControlContainers.forEach(
 				screenControl => {
 					screenControl.classList.add('show');
 				}
@@ -167,9 +170,9 @@ function CustomVideoPlayer(props) {
 			setTimeout(() => {
 				videoPlayControl.classList.remove('show')
 
-				videoScreenControls.forEach(
-					screenControl => {
-						screenControl.classList.remove('show');
+				videoScreenControlContainers.forEach(
+					screenControlContainer => {
+						screenControlContainer.classList.remove('show');
 					}
 				);
 			}, 1000);
@@ -182,20 +185,20 @@ function CustomVideoPlayer(props) {
 				videoPlayControlSmall.classList.toggle('playing');
 				videoPlayControlSmall.classList.toggle('paused');
 
-				videoScreenControls.forEach(screenControl => {
-					screenControl.classList.toggle('paused');
-					screenControl.classList.toggle('playing');
+				videoScreenControlContainers.forEach(screenControlContainer => {
+					screenControlContainer.classList.toggle('paused');
+					screenControlContainer.classList.toggle('playing');
 				});
 
 				video.play();
-			} else if (videoPlayControl.classList.contains('playing')) {
+			} else if (!video.paused) {
 				video.pause();
 				videoPlayControl.classList.toggle('playing');
 				videoPlayControl.classList.toggle('paused');
 				videoPlayControlSmall.classList.toggle('playing');
 				videoPlayControlSmall.classList.toggle('paused');
 
-				videoScreenControls.forEach(screenControl => {
+				videoScreenControlContainers.forEach(screenControl => {
 					screenControl.classList.toggle('playing');
 					screenControl.classList.toggle('paused');
 				});
@@ -206,14 +209,14 @@ function CustomVideoPlayer(props) {
 		}
 
 		if (video.ended) {
-			videoPlayControl.classList.toggle('playing');
-			videoPlayControl.classList.toggle('paused');
-			videoPlayControlSmall.classList.toggle('playing');
-			videoPlayControlSmall.classList.toggle('paused');
+			videoPlayControl.classList.remove('playing');
+			videoPlayControl.classList.add('paused');
+			videoPlayControlSmall.classList.remove('playing');
+			videoPlayControlSmall.classList.add('paused');
 
-			videoScreenControls.forEach(screenControl => {
-				screenControl.classList.toggle('playing');
-				screenControl.classList.toggle('paused');
+			videoScreenControlContainers.forEach(screenControlContainer => {
+				screenControlContainer.classList.remove('playing');
+				screenControlContainer.classList.add('paused');
 			});
 		}
 
@@ -255,13 +258,17 @@ function CustomVideoPlayer(props) {
 			document.removeEventListener("mouseup", stopSeek);
 			document.removeEventListener("touchend", stopSeek);
 		}
-	
+		
+		if (!progressBar) return;
+
 		progressBar.addEventListener("mousedown", startSeek);
 		progressBar.addEventListener("touchstart", startSeek);
 	
 		return () => {
-			progressBar.removeEventListener("mousedown", startSeek);
-			progressBar.removeEventListener("touchstart", startSeek);
+			if (progressBar) {
+				progressBar.removeEventListener("mousedown", startSeek);
+				progressBar.removeEventListener("touchstart", startSeek);
+			}
 		};
 	}, []);
 
@@ -279,13 +286,15 @@ function CustomVideoPlayer(props) {
 				poster={`${process.env.PUBLIC_URL}/assets/imgs/${props.poster}`}
 			/>
 			<div
-				className="screen-controls maximize paused"
-				ref={el => (videoScreenControlsRef.current[0] = el)}
+				className="screen-control-container maximize paused"
+				ref={el => (videoScreenControlContainersRef.current[0] = el)}
 				onClick={toggleFullscreenMode}>
+				<div className="screen-control fullscreen-icon" ref={fullscreenIconRef}></div>
 			</div>
 			<div
-				className="screen-controls max-width paused"
-				ref={el => (videoScreenControlsRef.current[1] = el)}>
+				className="screen-control-container max-width paused"
+				ref={el => (videoScreenControlContainersRef.current[1] = el)}>
+				<div className="screen-control video-width-icon" ref={videoWidthIconRef}></div>
 			</div>
 			<div className="video-bottom">
 				<div
