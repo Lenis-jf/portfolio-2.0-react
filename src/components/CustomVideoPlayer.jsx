@@ -55,6 +55,12 @@ function CustomVideoPlayer(props) {
 	useEffect(() => {
 		const video = videoRef.current
 		const videoScreenControlContainers = videoScreenControlContainersRef.current.filter(Boolean);
+		const fullscreenChangeEvents = [
+			'fullscreenchange',
+			'webkitfullscreenchange',
+			'mozfullscreenchange',
+			'MSFullscreenChange'
+		];
 
 		const handleMetadata = () => {
 			updateVideoDuration(video.duration);
@@ -72,6 +78,24 @@ function CustomVideoPlayer(props) {
 			});
 		};
 
+		const handleFullscreenChange = () => {
+			if (video && video.paused) {
+				videoPlayControlRef.current?.classList.remove('playing');
+				videoPlayControlRef.current?.classList.add('paused');
+				videoPlayControlSmallRef.current?.classList.remove('playing');
+				videoPlayControlSmallRef.current?.classList.add('paused');
+	
+				videoScreenControlContainersRef.current.filter(Boolean).forEach(container => {
+					container.classList.remove('playing');
+					container.classList.add('paused');
+				});
+			}
+		};
+	
+		fullscreenChangeEvents.forEach(event =>
+			document.addEventListener(event, handleFullscreenChange)
+		);
+
 		if (video) {
 			video.addEventListener('loadedmetadata', handleMetadata);
 			video.addEventListener('ended', handleEnded);
@@ -80,6 +104,9 @@ function CustomVideoPlayer(props) {
 		return () => {
 			video.removeEventListener('loadedmetadata', handleMetadata);
 			video.removeEventListener('ended', handleEnded)
+
+			fullscreenChangeEvents.forEach(event =>
+				document.removeEventListener(event, handleFullscreenChange));
 		}
 	}, []);
 
@@ -234,6 +261,8 @@ function CustomVideoPlayer(props) {
 	useEffect(() => {
 		const video = videoRef.current;
 		const progressBar = progressBarRef.current;
+
+		const preventDefault = (e) => e.preventDefault();
 	
 		function seek(event) {
 			if (!video || !progressBar) return;
@@ -246,6 +275,18 @@ function CustomVideoPlayer(props) {
 	
 		function startSeek(event) {
 			document.body.classList.add("no-vertical-scroll");
+			
+			let scrollPosition = window.scrollY || document.documentElement.scrollTop;
+
+			// 1. Bloquear scroll
+			document.documentElement.style.overflow = 'hidden';
+			document.body.classList.add('disable-scroll');
+			document.body.style.top = `-${scrollPosition}px`;
+		
+			// 2. Bloquear gestos táctiles en toda la página
+			document.addEventListener('touchmove', preventDefault, { passive: false });
+			document.addEventListener('wheel', preventDefault, { passive: false });
+		
 
 			seek(event);
 
@@ -253,10 +294,24 @@ function CustomVideoPlayer(props) {
 			document.addEventListener("touchmove", seek);
 			document.addEventListener("mouseup", stopSeek);
 			document.addEventListener("touchend", stopSeek);
+
+			stopSeek.scrollPosition = scrollPosition;
 		}
 	
 		function stopSeek() {
 			document.body.classList.remove("no-vertical-scroll");
+
+			// Restaurar scroll
+			document.documentElement.style.overflow = '';
+			document.body.classList.remove('disable-scroll');
+			document.removeEventListener('touchmove', preventDefault);
+			document.removeEventListener('wheel', preventDefault);
+			document.body.style.top = '';
+			window.scrollTo({
+				top: stopSeek.scrollPosition || 0,
+				behavior: "instant"
+			});
+			  
 
 			document.removeEventListener("mousemove", seek);
 			document.removeEventListener("touchmove", seek);
