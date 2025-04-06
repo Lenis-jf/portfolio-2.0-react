@@ -35,8 +35,20 @@ function CustomVideoPlayer(props) {
 			const video = videoRef.current;
 	
 			if (getFullscreenElement()) {
+				if(video.webkitExitFullscreen()) {
+					video.webkitExitFullscreen();
+					
+					videoPlayControlRef.current?.classList.remove('playing');
+					videoPlayControlRef.current?.classList.add('paused');
+					videoPlayControlSmallRef.current?.classList.remove('playing');
+					videoPlayControlSmallRef.current?.classList.add('paused');
+		
+					videoScreenControlContainersRef.current.filter(Boolean).forEach(container => {
+						container.classList.remove('playing');
+						container.classList.add('paused');
+					});
+				}
 				document.exitFullscreen();
-				video?.webkitExitFullscreen?.();
 			} else {
 				if (video.requestFullscreen) {
 					video.requestFullscreen();
@@ -67,29 +79,28 @@ function CustomVideoPlayer(props) {
 			setMetadataLoaded(true);
 		};
 
-		const handleEnded = () => {
+		const updateControlsToPaused = () => {
 			videoPlayControlRef.current?.classList.remove('playing');
 			videoPlayControlRef.current?.classList.add('paused');
-			videoPlayControlSmallRef.current?.classList.remove('playing')
-			videoPlayControlSmallRef.current?.classList.add('paused')
-			videoScreenControlContainers.forEach(screenControlContainer => {
-				screenControlContainer.classList.remove('playing');
-				screenControlContainer.classList.add('paused');
+			videoPlayControlSmallRef.current?.classList.remove('playing');
+			videoPlayControlSmallRef.current?.classList.add('paused');
+	
+			videoScreenControlContainers.forEach(container => {
+				container.classList.remove('playing');
+				container.classList.add('paused');
 			});
 		};
 
+		const handleEnded = () => {
+			updateControlsToPaused();
+		};
+
 		const handleFullscreenChange = () => {
-			if (video && video.paused) {
-				videoPlayControlRef.current?.classList.remove('playing');
-				videoPlayControlRef.current?.classList.add('paused');
-				videoPlayControlSmallRef.current?.classList.remove('playing');
-				videoPlayControlSmallRef.current?.classList.add('paused');
-	
-				videoScreenControlContainersRef.current.filter(Boolean).forEach(container => {
-					container.classList.remove('playing');
-					container.classList.add('paused');
-				});
-			}
+			setTimeout(() => {
+				if (video && video.paused) {
+					updateControlsToPaused();
+				}
+			}, 200);
 		};
 	
 		fullscreenChangeEvents.forEach(event =>
@@ -205,47 +216,41 @@ function CustomVideoPlayer(props) {
 			}, 1000);
 		}
 
-		function playManager() {
-			if (video.paused) {
-				videoPlayControl.classList.toggle('paused');
-				videoPlayControl.classList.toggle('playing');
-				videoPlayControlSmall.classList.toggle('playing');
-				videoPlayControlSmall.classList.toggle('paused');
-
-				videoScreenControlContainers.forEach(screenControlContainer => {
-					screenControlContainer.classList.toggle('paused');
-					screenControlContainer.classList.toggle('playing');
-				});
-
-				video.play();
-			} else if (!video.paused) {
-				video.pause();
-				videoPlayControl.classList.toggle('playing');
-				videoPlayControl.classList.toggle('paused');
-				videoPlayControlSmall.classList.toggle('playing');
-				videoPlayControlSmall.classList.toggle('paused');
-
-				videoScreenControlContainers.forEach(screenControl => {
-					screenControl.classList.toggle('playing');
-					screenControl.classList.toggle('paused');
-				});
-			} else if (video.ended) {
-				video.currentTime = 0;
-				video.play();
-			}
-		}
-
-		if (video.ended) {
+		const updateControlsToPlaying = () => {
+			videoPlayControl.classList.remove('paused');
+			videoPlayControl.classList.add('playing');
+			videoPlayControlSmall.classList.remove('paused');
+			videoPlayControlSmall.classList.add('playing');
+	
+			videoScreenControlContainers.forEach(container => {
+				container.classList.remove('paused');
+				container.classList.add('playing');
+			});
+		};
+	
+		const updateControlsToPaused = () => {
 			videoPlayControl.classList.remove('playing');
 			videoPlayControl.classList.add('paused');
 			videoPlayControlSmall.classList.remove('playing');
 			videoPlayControlSmall.classList.add('paused');
-
-			videoScreenControlContainers.forEach(screenControlContainer => {
-				screenControlContainer.classList.remove('playing');
-				screenControlContainer.classList.add('paused');
+	
+			videoScreenControlContainers.forEach(container => {
+				container.classList.remove('playing');
+				container.classList.add('paused');
 			});
+		};
+
+		function playManager() {
+			if (video.paused) {
+				video.play();
+			} else {
+				video.pause();
+			}
 		}
+
+		video.addEventListener('play', updateControlsToPlaying);
+		video.addEventListener('pause', updateControlsToPaused);
+		video.addEventListener('ended', updateControlsToPaused);
 
 		return () => {
 			if (video)
@@ -338,6 +343,8 @@ function CustomVideoPlayer(props) {
 			<div className="controls paused" ref={videoPlayControlRef}></div>
 			<video
 				ref={videoRef}
+				autoPlay
+				muted
 				playsInline
 				webkit-playsinline="true"
 				className={`video-container ${screenMode}-video`}
