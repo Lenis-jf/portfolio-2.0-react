@@ -32,6 +32,7 @@ body {
     margin: 0;
     padding: 0;
     overflow-x: hidden;
+    transition: background-color 500ms ease-in-out;
 }
 
 body.no-vertical-scroll {
@@ -142,9 +143,9 @@ label.menu.light-color input {
     background-color: var(--light-color);
 }
 
-header.dark-theme label.menu.light-color::before,
-header.dark-theme label.menu.light-color::after,
-header.dark-theme label.menu.light-color input {
+header.dark-theme label.menu::before,
+header.dark-theme label.menu::after,
+header.dark-theme label.menu input {
     background-color: var(--foreground-color);
 }
 
@@ -194,16 +195,19 @@ header div.menu-buttons-container a.menu-button {
     pointer-events: none;
 }
 
-header div.menu-buttons-container.brown-color a.menu-button,
-header.dark-theme div.menu-buttons-container.dark-theme a.menu-button.dark-theme {
+header div.menu-buttons-container.brown-color a.menu-button {
     color: var(--foreground-color);
     border: solid 1px var(--foreground-color);
 }
 
-header div.menu-buttons-container.light-color a.menu-button,
-header.dark-theme div.menu-buttons-container.dark-theme a.menu-button.dark-theme {
+header div.menu-buttons-container.light-color a.menu-button {
     color: var(--light-color);
     border: solid 1px var(--light-color);
+}
+
+header.dark-theme div.menu-buttons-container a.menu-button {
+    color: var(--foreground-color);
+    border: solid 1px var(--foreground-color);
 }
 
 label.menu:has(input:checked)~div.menu-buttons-container {
@@ -344,7 +348,7 @@ section {
     padding: 40px 20px 80px 20px;
     scroll-snap-align: start;
     color: var(--foreground-color);
-    transition: background-color 500ms ease-in-out
+    transition: background-color 500ms ease-in-out;
 }
 
 section h1,
@@ -553,7 +557,10 @@ div.project-card div.small-info-card {
     height: 80px;
     flex-direction: column;
     color: var(--light-color);
-    background-color: #3a5a40;
+    background: rgb(58 90 64 / 40%);
+    box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(5px);
     border-radius: 10px;
     box-shadow:
         2px 2px 4px rgba(10, 15, 30, 0.5),
@@ -578,7 +585,7 @@ div.project-card div.small-info-card {
 /* #326557: verde mas azulado */
 
 section.dark-theme div.project-card div.small-info-card {
-    background-color: #3f493f;
+    background: rgb(63 73 63 / 50%);
     color: var(--foreground-color);
     box-shadow:
         2px 2px 4px rgba(25, 35, 30, 0.5),
@@ -848,6 +855,7 @@ span.copy-right {
 section.project-info {
     position: relative;
     padding-bottom: 180px;
+    transition: background-color 500ms ease-in-out;
 }
 
 section.project-info#svq {
