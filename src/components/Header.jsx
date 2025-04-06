@@ -27,9 +27,12 @@ function Header() {
         const sections = document.querySelectorAll('section.section');
         const divHR = document.querySelector('div.hr');
         const githubLogos = document.querySelectorAll("div.face.back img");
+        const header = document.querySelector('header');
 
         if (isDarkMode) {
             root.classList.add("dark-theme");
+
+            header.classList.add("dark-theme");
 
             sections.forEach(section => section.classList.add("dark-theme"));
 
@@ -38,6 +41,8 @@ function Header() {
             githubLogos?.forEach(logo => logo.src = `${process.env.PUBLIC_URL}/assets/icons/github-logo-light.svg`);
         } else {
             root.classList.remove("dark-theme");
+
+            header.classList.remove("dark-theme");
 
             sections.forEach(section => section.classList.remove("dark-theme"));
 
@@ -53,7 +58,6 @@ function Header() {
     useEffect(() => {
         const sections = document.querySelectorAll('section.section');
         const sectionChangers = document.querySelectorAll('div.section-changer');
-        const header = document.querySelector('header');
         const labelMenu = document.querySelector('label.menu');
         const menuButtonsContainer = document.querySelector('div.menu-buttons-container');
         const logo = document.querySelector('.logo-container');
@@ -74,9 +78,6 @@ function Header() {
                             menuButtonsContainer.classList.add('brown-color');
                             menuButtonsContainer.classList.remove('light-color');
 
-                            // header.classList.add('light-section');
-                            // header.classList.remove('dark-section');
-
                             document.body.style.backgroundColor = "#F8F3D9"
                         } else if (entry.target.classList.contains('dark-section')) {
                             labelMenu.classList.add('light-color');
@@ -85,21 +86,12 @@ function Header() {
                             menuButtonsContainer.classList.add('light-color');
                             menuButtonsContainer.classList.remove('brown-color');
 
-                            // header.classList.add('dark-section');
-                            // header.classList.remove('light-section');
-
                             document.body.style.backgroundColor = "#3F4F44";
                         }
                     } else if (isDarkMode) {
                         if (entry.target.classList.contains('light-section')) {
-                            header.classList.add('light-section');
-                            header.classList.remove('dark-section');
-
                             document.body.style.backgroundColor = "#3C3D37"
                         } else if (entry.target.classList.contains('dark-section')) {
-                            header.classList.add('dark-section');
-                            header.classList.remove('light-section');
-
                             document.body.style.backgroundColor = "#1E201E";
                         }
                     }
