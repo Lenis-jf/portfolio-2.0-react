@@ -35,20 +35,8 @@ function CustomVideoPlayer(props) {
 			const video = videoRef.current;
 	
 			if (getFullscreenElement()) {
-				if(video.webkitExitFullscreen()) {
-					video.webkitExitFullscreen();
-					
-					videoPlayControlRef.current?.classList.remove('playing');
-					videoPlayControlRef.current?.classList.add('paused');
-					videoPlayControlSmallRef.current?.classList.remove('playing');
-					videoPlayControlSmallRef.current?.classList.add('paused');
-		
-					videoScreenControlContainersRef.current.filter(Boolean).forEach(container => {
-						container.classList.remove('playing');
-						container.classList.add('paused');
-					});
-				}
 				document.exitFullscreen();
+				video?.webkitExitFullscreen?.();
 			} else {
 				if (video.requestFullscreen) {
 					video.requestFullscreen();
